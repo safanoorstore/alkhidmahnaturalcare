@@ -1,0 +1,53 @@
+/* তুলসী প্রোডাক্টের আলাদা স্টাইল */
+.product-detail-container {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+}
+
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.product-info h1 {
+    color: #4CAF50;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-size: 28px;
+    color: #2e7d32;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.order-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.order-btn:hover {
+    background-color: #388E3C;
+}
+
+@media (max-width: 768px) {
+    .product-detail {
+        grid-template-columns: 1fr;
+    }
+}

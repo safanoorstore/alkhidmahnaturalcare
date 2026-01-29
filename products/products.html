@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সমস্ত পণ্য - Alkhidmah Natural Care Branch</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .all-products {
+            padding: 60px 0;
+        }
+        
+        .products-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .category-section {
+            margin-bottom: 60px;
+        }
+        
+        .category-title {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Alkhidmah Natural Care Branch</h1>
+                <p>প্রাকৃতিক উপায়ে সুস্থ জীবন</p>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li>
+                    <li><a href="products.html" class="active"><i class="fas fa-leaf"></i> পণ্য তালিকা</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> যোগাযোগ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="contact-header">
+                <a href="tel:01949805239" class="phone-btn">
+                    <i class="fas fa-phone"></i> ০১৯৪৯-৮০৫২৩৯
+                </a>
+                <a href="https://wa.me/8801949805239" class="whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="all-products">
+        <div class="container">
+            <h1 class="section-title">আমাদের সকল পণ্য</h1>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 18px;">১০০+ প্রাকৃতিক হারবাল পণ্য</p>
+            
+            <div class="products-filter">
+                <button class="filter-btn active" onclick="filterProducts('all')">সকল পণ্য</button>
+                <button class="filter-btn" onclick="filterProducts('powder')">গুঁড়া</button>
+                <button class="filter-btn" onclick="filterProducts('oil')">তেল</button>
+                <button class="filter-btn" onclick="filterProducts('capsule')">ক্যাপসুল</button>
+                <button class="filter-btn" onclick="filterProducts('leaf')">পাতা</button>
+            </div>
+            
+            <!-- হারবাল পাউডার -->
+            <div class="category-section" id="powder">
+                <h2 class="category-title">হারবাল গুঁড়া</h2>
+                <div class="products-grid">
+                    <!-- হলুদ -->
+                    <div class="product-card" data-category="powder">
+                        <div class="product-image">
+                            <img src="products/হলুদ/images/হলুদ-গুঁড়া.jpg" alt="হলুদ গুঁড়া">
+                        </div>
+                        <div class="product-info">
+                            <h3>হলুদ গুঁড়া</h3>
+                            <p>প্রদাহনাশক, রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি</p>
+                            <a href="products/হলুদ/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- আদা গুঁড়া -->
+                    <div class="product-card" data-category="powder">
+                        <div class="product-image">
+                            <img src="products/আদা/images/আদা-গুঁড়া.jpg" alt="আদা গুঁড়া">
+                        </div>
+                        <div class="product-info">
+                            <h3>আদা গুঁড়া</h3>
+                            <p>হজমশক্তি বৃদ্ধি, বমি ভাব দূরীকরণ</p>
+                            <a href="products/আদা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- দারুচিনি গুঁড়া -->
+                    <div class="product-card" data-category="powder">
+                        <div class="product-image">
+                            <img src="products/দারুচিনি/images/দারুচিনি-গুঁড়া.jpg" alt="দারুচিনি গুঁড়া">
+                        </div>
+                        <div class="product-info">
+                            <h3>দারুচিনি গুঁড়া</h3>
+                            <p>রক্তে শর্করা নিয়ন্ত্রণ, অ্যান্টি-ব্যাকটেরিয়াল</p>
+                            <a href="products/দারুচিনি/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- আমলকী গুঁড়া -->
+                    <div class="product-card" data-category="powder">
+                        <div class="product-image">
+                            <img src="products/আমলকী/images/আমলকী-গুঁড়া.jpg" alt="আমলকী গুঁড়া">
+                        </div>
+                        <div class="product-info">
+                            <h3>আমলকী গুঁড়া</h3>
+                            <p>ভিটামিন সি সমৃদ্ধ, অ্যান্টি-অক্সিডেন্ট</p>
+                            <a href="products/আমলকী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- হারবাল তেল -->
+            <div class="category-section" id="oil">
+                <h2 class="category-title">হারবাল তেল</h2>
+                <div class="products-grid">
+                    <!-- নিম তেল -->
+                    <div class="product-card" data-category="oil">
+                        <div class="product-image">
+                            <img src="products/নিম/images/নিম-তেল.jpg" alt="নিম তেল">
+                        </div>
+                        <div class="product-info">
+                            <h3>নিম তেল</h3>
+                            <p>ত্বকের রোগ, চুলের যত্ন, অ্যান্টি-ব্যাকটেরিয়াল</p>
+                            <a href="products/নিম/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- তুলসী তেল -->
+                    <div class="product-card" data-category="oil">
+                        <div class="product-image">
+                            <img src="products/তুলসী/images/তুলসী-তেল.jpg" alt="তুলসী তেল">
+                        </div>
+                        <div class="product-info">
+                            <h3>তুলসী তেল</h3>
+                            <p>শ্বাসতন্ত্র, মানসিক চাপ, অ্যান্টি-অক্সিডেন্ট</p>
+                            <a href="products/তুলসী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- কালোজিরা তেল -->
+                    <div class="product-card" data-category="oil">
+                        <div class="product-image">
+                            <img src="products/কালোজিরা/images/কালোজিরা-তেল.jpg" alt="কালোজিরা তেল">
+                        </div>
+                        <div class="product-info">
+                            <h3>কালোজিরা তেল</h3>
+                            <p>মধ্যপ্রাচ্যের ঐতিহ্য, রোগ প্রতিরোধ ক্ষমতা</p>
+                            <a href="products/কালোজিরা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- অ্যালোভেরা তেল -->
+                    <div class="product-card" data-category="oil">
+                        <div class="product-image">
+                            <img src="products/অ্যালোভেরা/images/অ্যালোভেরা-তেল.jpg" alt="অ্যালোভেরা তেল">
+                        </div>
+                        <div class="product-info">
+                            <h3>অ্যালোভেরা তেল</h3>
+                            <p>ত্বক ও চুলের যত্ন, পোড়া নিরাময়</p>
+                            <a href="products/অ্যালোভেরা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- হারবাল পাতা -->
+            <div class="category-section" id="leaf">
+                <h2 class="category-title">হারবাল পাতা</h2>
+                <div class="products-grid">
+                    <!-- তুলসী পাতা -->
+                    <div class="product-card" data-category="leaf">
+                        <div class="product-image">
+                            <img src="products/তুলসী/images/তুলসী-পাতা.jpg" alt="তুলসী পাতা">
+                        </div>
+                        <div class="product-info">
+                            <h3>তুলসী পাতা</h3>
+                            <p>প্রতিরোধ ক্ষমতা বৃদ্ধি, শ্বাসতন্ত্র</p>
+                            <a href="products/তুলসী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- নিম পাতা -->
+                    <div class="product-card" data-category="leaf">
+                        <div class="product-image">
+                            <img src="products/নিম/images/নিম-পাতা.jpg" alt="নিম পাতা">
+                        </div>
+                        <div class="product-info">
+                            <h3>নিম পাতা</h3>
+                            <p>রক্ত পরিশোধন, ত্বকের রোগ, ডায়াবেটিস</p>
+                            <a href="products/নিম/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- ব্রাহ্মী পাতা -->
+                    <div class="product-card" data-category="leaf">
+                        <div class="product-image">
+                            <img src="products/ব্রাহ্মী/images/ব্রাহ্মী-পাতা.jpg" alt="ব্রাহ্মী পাতা">
+                        </div>
+                        <div class="product-info">
+                            <h3>ব্রাহ্মী পাতা</h3>
+                            <p>মস্তিষ্কের কার্যকারিতা, স্মৃতিশক্তি বৃদ্ধি</p>
+                            <a href="products/ব্রাহ্মী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- পুদিনা পাতা -->
+                    <div class="product-card" data-category="leaf">
+                        <div class="product-image">
+                            <img src="products/পুদিনা/images/পুদিনা-পাতা.jpg" alt="পুদিনা পাতা">
+                        </div>
+                        <div class="product-info">
+                            <h3>পুদিনা পাতা</h3>
+                            <p>হজমশক্তি বৃদ্ধি, ঠান্ডা-কাশি উপশম</p>
+                            <a href="products/পুদিনা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- হারবাল ক্যাপসুল -->
+            <div class="category-section" id="capsule">
+                <h2 class="category-title">হারবাল ক্যাপসুল</h2>
+                <div class="products-grid">
+                    <!-- হলুদ ক্যাপসুল -->
+                    <div class="product-card" data-category="capsule">
+                        <div class="product-image">
+                            <img src="products/হলুদ/images/হলুদ-ক্যাপসুল.jpg" alt="হলুদ ক্যাপসুল">
+                        </div>
+                        <div class="product-info">
+                            <h3>হলুদ ক্যাপসুল</h3>
+                            <p>কারকিউমিন সমৃদ্ধ, অ্যান্টি-ইনফ্লেমেটরি</p>
+                            <a href="products/হলুদ/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- অশ্বগন্ধা ক্যাপসুল -->
+                    <div class="product-card" data-category="capsule">
+                        <div class="product-image">
+                            <img src="products/অশ্বগন্ধা/images/অশ্বগন্ধা-ক্যাপসুল.jpg" alt="অশ্বগন্ধা ক্যাপসুল">
+                        </div>
+                        <div class="product-info">
+                            <h3>অশ্বগন্ধা ক্যাপসুল</h3>
+                            <p>শারীরিক শক্তি, স্ট্রেস ম্যানেজমেন্ট</p>
+                            <a href="products/অশ্বগন্ধা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- আমলকী ক্যাপসুল -->
+                    <div class="product-card" data-category="capsule">
+                        <div class="product-image">
+                            <img src="products/আমলকী/images/আমলকী-ক্যাপসুল.jpg" alt="আমলকী ক্যাপসুল">
+                        </div>
+                        <div class="product-info">
+                            <h3>আমলকী ক্যাপসুল</h3>
+                            <p>ভিটামিন সি, অ্যান্টি-অক্সিডেন্ট</p>
+                            <a href="products/আমলকী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                    
+                    <!-- গিলয় ক্যাপসুল -->
+                    <div class="product-card" data-category="capsule">
+                        <div class="product-image">
+                            <img src="products/গিলয়/images/গিলয়-ক্যাপসুল.jpg" alt="গিলয় ক্যাপসুল">
+                        </div>
+                        <div class="product-info">
+                            <h3>গিলয় ক্যাপসুল</h3>
+                            <p>প্রতিরোধ ক্ষমতা, জ্বর, আর্থ্রাইটিস</p>
+                            <a href="products/গিলয়/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Alkhidmah Natural Care Branch</h3>
+                    <p>প্রাকৃতিক উপায়ে সুস্থ জীবনযাপনের জন্য আমরা নিবেদিত।</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>যোগাযোগ</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> <a href="tel:01949805239">০১৯৪৯-৮০৫২৩৯</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/8801949805239">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; ২০২৪ Alkhidmah Natural Care Branch. সকল স্বত্ব সংরক্ষিত।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function filterProducts(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Show/hide products
+            document.querySelectorAll('.product-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Scroll to category
+            if (category !== 'all') {
+                document.getElementById(category).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+    </script>
+</body>
+</html>

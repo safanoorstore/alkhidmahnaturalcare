@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>হলুদ গুঁড়া - Alkhidmah Natural Care Branch</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* হলুদ প্রোডাক্টের স্টাইল */
+        .product-detail-container {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #fdf6e3 0%, #fff9e6 100%);
+        }
+        
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-images {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .main-image {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 300px;
+        }
+        
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .thumbnail-images {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .thumbnail.active {
+            border-color: #FF9800;
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info h1 {
+            color: #FF9800;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .product-price {
+            font-size: 28px;
+            color: #2e7d32;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .benefits-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .benefits-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .benefits-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .order-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .order-btn {
+            background-color: #FF9800;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .order-btn:hover {
+            background-color: #F57C00;
+        }
+        
+        .related-products {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .related-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Same as Main Site -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Alkhidmah Natural Care Branch</h1>
+                <p>প্রাকৃতিক উপায়ে সুস্থ জীবন</p>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="../../index.html"><i class="fas fa-home"></i> হোম</a></li>
+                    <li><a href="../../products.html"><i class="fas fa-leaf"></i> পণ্য তালিকা</a></li>
+                    <li><a href="../../about.html"><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</a></li>
+                    <li><a href="../../contact.html"><i class="fas fa-phone-alt"></i> যোগাযোগ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="contact-header">
+                <a href="tel:01949805239" class="phone-btn">
+                    <i class="fas fa-phone"></i> ০১৯৪৯-৮০৫২৩৯
+                </a>
+                <a href="https://wa.me/8801949805239" class="whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-container">
+        <div class="container">
+            <div class="product-detail">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="images/হলুদ-গুঁড়া.jpg" alt="হলুদ গুঁড়া" id="mainImage">
+                    </div>
+                    <div class="thumbnail-images">
+                        <div class="thumbnail active" onclick="changeImage('images/হলুদ-গুঁড়া.jpg')">
+                            <img src="images/হলুদ-গুঁড়া.jpg" alt="হলুদ গুঁড়া">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/হলুদ-কাঁচা.jpg')">
+                            <img src="images/হলুদ-কাঁচা.jpg" alt="কাঁচা হলুদ">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/হলুদ-তেল.jpg')">
+                            <img src="images/হলুদ-তেল.jpg" alt="হলুদ তেল">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/হলুদ-ক্যাপসুল.jpg')">
+                            <img src="images/হলুদ-ক্যাপসুল.jpg" alt="হলুদ ক্যাপসুল">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1>হলুদ গুঁড়া</h1>
+                    <p>১০০% খাঁটি ও অর্গানিক হলুদ গুঁড়া। আয়ুর্বেদিক চিকিৎসায় হলুদের ব্যবহার সুপ্রাচীন। কারকিউমিন নামক উপাদান সমৃদ্ধ হলুদ শক্তিশালী অ্যান্টি-ইনফ্লেমেটরি ও অ্যান্টি-অক্সিডেন্ট গুণাবলী সম্পন্ন।</p>
+                    
+                    <div class="product-price">
+                        মূল্য: ২৫০ টাকা / ১০০ গ্রাম
+                    </div>
+                    
+                    <h3>উপকারিতা:</h3>
+                    <ul class="benefits-list">
+                        <li>প্রদাহনাশক (Anti-inflammatory)</li>
+                        <li>অ্যান্টি-অক্সিডেন্ট সমৃদ্ধ</li>
+                        <li>রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি</li>
+                        <li>লিভার ডিটক্সিফিকেশন</li>
+                        <li>আর্থ্রাইটিস ব্যথা উপশম</li>
+                        <li>হজমশক্তি বৃদ্ধি</li>
+                        <li>ত্বকের উজ্জ্বলতা বৃদ্ধি</li>
+                        <li>ক্যান্সার প্রতিরোধে সহায়ক</li>
+                    </ul>
+                    
+                    <div class="order-section">
+                        <h3><i class="fas fa-shipping-fast"></i> অর্ডার করুন</h3>
+                        <p>হোম ডেলিভারি সেবা উপলব্ধ। ঢাকায় ২৪ ঘন্টা এবং অন্যান্য জেলায় ২-৩ কার্যদিবসে ডেলিভারি।</p>
+                        
+                        <button class="order-btn" onclick="placeOrder('হলুদ গুঁড়া')">
+                            <i class="fab fa-whatsapp"></i> WhatsApp এ অর্ডার করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">সম্পর্কিত পণ্য</h2>
+            <div class="related-products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../তুলসী/images/তুলসী-পাতা.jpg" alt="তুলসী পাতা">
+                    </div>
+                    <div class="product-info">
+                        <h3>তুলসী পাতা</h3>
+                        <p>প্রতিরোধ ক্ষমতা বৃদ্ধি, শ্বাসতন্ত্রের সমস্যা সমাধান</p>
+                        <a href="../তুলসী/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../আদা/images/আদা-গুঁড়া.jpg" alt="আদা গুঁড়া">
+                    </div>
+                    <div class="product-info">
+                        <h3>আদা গুঁড়া</h3>
+                        <p>হজমশক্তি বৃদ্ধি, বমি ভাব দূরীকরণ</p>
+                        <a href="../আদা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../কালোজিরা/images/কালোজিরা-তেল.jpg" alt="কালোজিরা তেল">
+                    </div>
+                    <div class="product-info">
+                        <h3>কালোজিরা তেল</h3>
+                        <p>মধ্যপ্রাচ্যের ঐতিহ্যবাহী চিকিৎসা উপাদান</p>
+                        <a href="../কালোজিরা/index.html" class="product-link">বিস্তারিত দেখুন</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Same as Main Site -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Alkhidmah Natural Care Branch</h3>
+                    <p>প্রাকৃতিক উপায়ে সুস্থ জীবনযাপনের জন্য আমরা নিবেদিত।</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>যোগাযোগ</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> <a href="tel:01949805239">০১৯৪৯-৮০৫২৩৯</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/8801949805239">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; ২০২৪ Alkhidmah Natural Care Branch. সকল স্বত্ব সংরক্ষিত।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function changeImage(imageSrc) {
+            document.getElementById('mainImage').src = imageSrc;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        function placeOrder(productName) {
+            const phone = "01949805239";
+            const message = `আমি ${productName} অর্ডার করতে চাই। বিস্তারিত জানাবো।`;
+            const whatsappUrl = `https://wa.me/8801949805239?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
