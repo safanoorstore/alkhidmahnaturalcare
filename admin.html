@@ -1,0 +1,2769 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Alkhidmah Natural Care Branch</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Admin Login Overlay Styles */
+        #adminLoginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a6d2c, #0d4d1f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: #1a6d2c;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0f2e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f9fffa;
+            margin-bottom: 20px;
+        }
+        
+        .login-input:focus {
+            border-color: #1a6d2c;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 109, 44, 0.1);
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #1a6d2c, #2e8b57);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 109, 44, 0.4);
+        }
+        
+        #loginError {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: left;
+            border-left: 4px solid #c62828;
+        }
+        
+        .security-note {
+            padding: 15px;
+            background: #f5fdf7;
+            border-radius: 8px;
+            margin-top: 25px;
+            border: 1px solid #e0f2e0;
+        }
+        
+        .dev-credentials {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff8e1;
+            border-radius: 8px;
+            border: 1px dashed #ffb300;
+        }
+        
+        /* Admin Header Additional Styles */
+        .session-timer {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .view-site-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .view-site-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+    </style>
+</head>
+<body>
+    <!-- =========================================== -->
+    <!-- ADMIN LOGIN OVERLAY (Shows First) -->
+    <!-- =========================================== -->
+    <div id="adminLoginOverlay">
+        <!-- Login Box -->
+        <div class="login-container">
+            <!-- Logo -->
+            <div style="margin-bottom: 30px;">
+                <div class="login-logo">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2 style="color: #1a6d2c; margin-bottom: 10px;">
+                    Admin Access Required
+                </h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    অ্যাডমিন প্যানেলে অ্যাক্সেস করতে লগইন করুন
+                </p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="adminLoginForm">
+                <!-- Username -->
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-user"></i> ইউজারনেম
+                    </label>
+                    <input type="text" 
+                           id="adminUsername" 
+                           placeholder="Enter username" 
+                           required
+                           class="login-input">
+                </div>
+                
+                <!-- Password -->
+                <div style="margin-bottom: 25px; text-align: left;">
+                    <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-key"></i> পাসওয়ার্ড
+                    </label>
+                    <input type="password" 
+                           id="adminPassword" 
+                           placeholder="Enter password" 
+                           required
+                           class="login-input">
+                </div>
+                
+                <!-- Error Message -->
+                <div id="loginError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span style="margin-left: 10px;">ভুল ইউজারনেম বা পাসওয়ার্ড!</span>
+                </div>
+                
+                <!-- Login Button -->
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    লগইন করুন
+                </button>
+                
+                <!-- Security Note -->
+                <div class="security-note">
+                    <p style="color: #666; font-size: 13px; margin: 0; line-height: 1.5;">
+                        <i class="fas fa-shield-alt" style="color: #1a6d2c;"></i>
+                        <strong>সুরক্ষা নোট:</strong> এটি একটি সুরক্ষিত অ্যাডমিন প্যানেল। 
+                        শুধুমাত্র অনুমোদিত কর্মচারীরা অ্যাক্সেস করতে পারবেন।
+                    </p>
+                </div>
+            </form>
+            
+            <!-- Default Credentials (for development only) -->
+            <div class="dev-credentials">
+                <p style="color: #666; font-size: 13px; margin: 0; text-align: left;">
+                    <i class="fas fa-info-circle" style="color: #ffb300;"></i>
+                    <strong>ডেভেলপমেন্ট ক্রেডেনশিয়ালস:</strong><br>
+                    ইউজারনেম: <code style="background: #eee; padding: 2px 6px; border-radius: 4px;">admin</code><br>
+                    পাসওয়ার্ড: <code style="background: #eee; padding: 2px 6px; border-radius: 4px;">alkhidmah@2026</code>
+                </p>
+                <p style="color: #ff6f00; font-size: 12px; margin: 8px 0 0 0; font-style: italic;">
+                    Note: Production-এ এই ক্রেডেনশিয়ালস পরিবর্তন করুন।
+                </p>
+            </div>
+        </div>
+        
+        <!-- Back to Site Link -->
+        <a href="index.html" style="margin-top: 30px; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; opacity: 0.8; transition: opacity 0.3s;"
+           onmouseover="this.style.opacity='1';"
+           onmouseout="this.style.opacity='0.8';">
+            <i class="fas fa-arrow-left"></i>
+            মেইন সাইটে ফিরে যান
+        </a>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- ADMIN CONTENT (Hidden until login) -->
+    <!-- =========================================== -->
+    <div id="adminContent" style="display: none;">
+        <!-- Admin Header -->
+        <header class="header admin-header">
+            <div class="container">
+                <div class="logo-area">
+                    <h1 class="logo"><i class="fas fa-user-cog"></i> Admin Panel</h1>
+                    <p class="tagline">Alkhidmah Natural Care Branch</p>
+                </div>
+                <div class="header-right">
+                    <!-- Session Timer -->
+                    <div class="session-timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="sessionTimer">60:00</span>
+                    </div>
+                    
+                    <!-- User Info -->
+                    <div class="admin-user">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </div>
+                    
+                    <!-- Logout Button -->
+                    <button class="logout-btn" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                    
+                    <!-- View Site -->
+                    <a href="index.html" class="view-site-btn">
+                        <i class="fas fa-external-link-alt"></i> View Site
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Navigation -->
+        <nav class="admin-nav">
+            <div class="container">
+                <a href="#dashboard" class="active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#products" onclick="showSection('products')">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a href="#orders" onclick="showSection('orders')">
+                    <i class="fas fa-shopping-bag"></i> Orders
+                </a>
+                <a href="#customers" onclick="showSection('customers')">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+                <a href="#settings" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Admin Content -->
+        <main class="admin-main">
+            <div class="container">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="admin-section active">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Products</h3>
+                                <p id="totalProductsCount">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Orders</h3>
+                                <p id="totalOrdersCount">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Customers</h3>
+                                <p id="totalCustomersCount">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <p id="totalRevenue">৳ 0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="activity-section">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <div class="activity-list" id="recentActivity">
+                            <!-- Activities will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        <div class="actions-grid">
+                            <button class="action-btn" onclick="showSection('products')">
+                                <i class="fas fa-plus"></i>
+                                <span>Add New Product</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('orders')">
+                                <i class="fas fa-eye"></i>
+                                <span>View Orders</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('settings')">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </button>
+                            <button class="action-btn" onclick="exportData()">
+                                <i class="fas fa-download"></i>
+                                <span>Export Data</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Management Section -->
+                <section id="products" class="admin-section">
+                    <h2><i class="fas fa-box"></i> পণ্য ব্যবস্থাপনা</h2>
+                    
+                    <!-- Sync Status Bar -->
+                    <div class="sync-status-bar" style="
+                        background: linear-gradient(135deg, #1a6d2c, #2e8b57);
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 10px;
+                        margin-bottom: 25px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        box-shadow: 0 4px 15px rgba(26, 109, 44, 0.2);
+                    ">
+                        <div>
+                            <h4 style="margin: 0 0 5px 0;">
+                                <i class="fas fa-sync-alt"></i> রিয়েল-টাইম সিঙ্ক
+                            </h4>
+                            <p style="margin: 0; opacity: 0.9; font-size: 14px;">
+                                সর্বশেষ আপডেট: <span id="globalLastSync">--:--:--</span> |
+                                মোট পণ্য: <span id="globalProductCount">0</span> |
+                                স্ট্যাটাস: <span id="syncStatusText" style="color: #a3ffb3;">সক্রিয়</span>
+                            </p>
+                        </div>
+                        <div>
+                            <button onclick="manualSync()" class="btn" style="background: rgba(255,255,255,0.2); color: white;">
+                                <i class="fas fa-sync"></i> সিঙ্ক করুন
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Product Form -->
+                    <div class="add-product-form">
+                        <h3><i class="fas fa-plus-circle"></i> নতুন পণ্য যোগ করুন</h3>
+                        
+                        <form id="productForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productName">পণ্যের নাম (বাংলা)*</label>
+                                    <input type="text" id="productName" required placeholder="পণ্যের সম্পূর্ণ নাম লিখুন">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory">বিভাগ*</label>
+                                    <select id="productCategory" required>
+                                        <option value="">বিভাগ নির্বাচন করুন</option>
+                                        <option value="হেলথ কেয়ার পণ্য">হেলথ কেয়ার পণ্য</option>
+                                        <option value="চর্ম, এলার্জি, হাঁপানি ইত্যাদি পণ্য তালিকা">চর্ম, এলার্জি, হাঁপানি</option>
+                                        <option value="শুধুমাত্র মেয়েদের যৌন রোগের পণ্য তালিকা">মহিলাদের যৌন রোগ</option>
+                                        <option value="Sexually Products">পুরুষদের যৌন রোগ</option>
+                                        <option value="কসমেটিক্স পণ্য তালিকা">কসমেটিক্স</option>
+                                        <option value="কম্বো প্যাকেজ অফার">কম্বো প্যাকেজ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productPrice">মূল্য (৳)*</label>
+                                    <input type="number" id="productPrice" required placeholder="পণ্যের মূল্য" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productStock">স্টক সংখ্যা*</label>
+                                    <input type="number" id="productStock" required placeholder="স্টক সংখ্যা" min="0" value="10">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productDescription">সংক্ষিপ্ত বর্ণনা*</label>
+                                <textarea id="productDescription" rows="3" required placeholder="পণ্যের সংক্ষিপ্ত বর্ণনা (ওয়েবসাইটে দেখাবে)"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productDetails">বিস্তারিত বর্ণনা</label>
+                                <textarea id="productDetails" rows="4" placeholder="পণ্যের সম্পূর্ণ বিবরণ, ব্যবহারবিধি, উপকারিতা..."></textarea>
+                            </div>
+                            
+                            <!-- Image Upload -->
+                            <div class="form-group">
+                                <label>পণ্যের ছবি (৩টি ছবি প্রয়োজন)*</label>
+                                <div class="image-upload-container">
+                                    <div class="image-upload-box" onclick="triggerUpload(1)">
+                                        <div class="upload-placeholder" id="placeholder1">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>মূল ছবি</p>
+                                            <small>ক্লিক করে আপলোড করুন</small>
+                                        </div>
+                                        <img id="preview1" class="upload-preview" src="" alt="">
+                                        <input type="file" id="image1" accept="image/*" hidden onchange="previewImage(event, 1)">
+                                    </div>
+                                    
+                                    <div class="image-upload-box" onclick="triggerUpload(2)">
+                                        <div class="upload-placeholder" id="placeholder2">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>ছবি ২</p>
+                                            <small>ক্লিক করে আপলোড করুন</small>
+                                        </div>
+                                        <img id="preview2" class="upload-preview" src="" alt="">
+                                        <input type="file" id="image2" accept="image/*" hidden onchange="previewImage(event, 2)">
+                                    </div>
+                                    
+                                    <div class="image-upload-box" onclick="triggerUpload(3)">
+                                        <div class="upload-placeholder" id="placeholder3">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>ছবি ৩</p>
+                                            <small>বা ভিডিও</small>
+                                        </div>
+                                        <img id="preview3" class="upload-preview" src="" alt="">
+                                        <input type="file" id="image3" accept="image/*,video/*" hidden onchange="previewImage(event, 3)">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> পণ্য সংরক্ষণ করুন
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="resetProductForm()">
+                                    <i class="fas fa-redo"></i> ফর্ম রিসেট
+                                </button>
+                                <button type="button" class="btn btn-info" onclick="testProductSave()">
+                                    <i class="fas fa-vial"></i> টেস্ট করুন
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Product List -->
+                    <div class="product-list-section">
+                        <h3><i class="fas fa-list"></i> সকল পণ্য</h3>
+                        
+                        <!-- Controls -->
+                        <div class="product-controls">
+                            <div class="search-box">
+                                <input type="text" id="searchProducts" placeholder="পণ্য খুঁজুন..." oninput="searchProducts()">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            
+                            <div class="filter-actions">
+                                <select id="filterCategory" onchange="filterProducts()">
+                                    <option value="">সব বিভাগ</option>
+                                    <option value="হেলথ">হেলথ কেয়ার</option>
+                                    <option value="চর্ম">চর্ম রোগ</option>
+                                    <option value="যৌন">যৌন রোগ</option>
+                                    <option value="কসমেটিক্স">কসমেটিক্স</option>
+                                    <option value="কম্বো">কম্বো</option>
+                                </select>
+                                
+                                <select id="filterStock" onchange="filterProducts()">
+                                    <option value="">সব স্টক</option>
+                                    <option value="in_stock">স্টকে আছে</option>
+                                    <option value="low_stock">স্টক কম</option>
+                                    <option value="out_stock">স্টক নেই</option>
+                                </select>
+                                
+                                <button class="btn" onclick="loadProducts()">
+                                    <i class="fas fa-sync-alt"></i> রিফ্রেশ
+                                </button>
+                                
+                                <button class="btn btn-export" onclick="exportProducts()">
+                                    <i class="fas fa-download"></i> এক্সপোর্ট
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Products Table -->
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th width="50">ID</th>
+                                        <th width="80">ছবি</th>
+                                        <th>পণ্যের নাম</th>
+                                        <th width="150">বিভাগ</th>
+                                        <th width="100">মূল্য</th>
+                                        <th width="80">স্টক</th>
+                                        <th width="120">স্ট্যাটাস</th>
+                                        <th width="120">কর্ম</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable">
+                                    <!-- Products will load here -->
+                                    <tr id="loadingRow">
+                                        <td colspan="8" class="loading-cell">
+                                            <div class="loading-spinner">
+                                                <i class="fas fa-spinner fa-spin"></i>
+                                                <p>পণ্য লোড হচ্ছে...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Statistics -->
+                        <div class="product-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-box"></i>
+                                <div>
+                                    <h4>মোট পণ্য</h4>
+                                    <p id="totalProductsStat">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>সক্রিয়</h4>
+                                    <p id="activeProductsStat">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <h4>স্টক কম</h4>
+                                    <p id="lowStockStat">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-sync-alt"></i>
+                                <div>
+                                    <h4>সর্বশেষ আপডেট</h4>
+                                    <p id="lastUpdateStat">--:--</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Management Section -->
+                <section id="orders" class="admin-section">
+                    <h2><i class="fas fa-shopping-bag"></i> Order Management</h2>
+                    
+                    <!-- Orders Stats -->
+                    <div class="orders-stats">
+                        <div class="stat-badge pending">
+                            <i class="fas fa-clock"></i>
+                            <span id="pendingOrders">0</span>
+                            <small>Pending</small>
+                        </div>
+                        <div class="stat-badge processing">
+                            <i class="fas fa-cog"></i>
+                            <span id="processingOrders">0</span>
+                            <small>Processing</small>
+                        </div>
+                        <div class="stat-badge completed">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="completedOrders">0</span>
+                            <small>Completed</small>
+                        </div>
+                        <div class="stat-badge cancelled">
+                            <i class="fas fa-times-circle"></i>
+                            <span id="cancelledOrders">0</span>
+                            <small>Cancelled</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Orders Table -->
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- Orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Customers Section -->
+                <section id="customers" class="admin-section">
+                    <h2><i class="fas fa-users"></i> Customer Management</h2>
+                    
+                    <!-- Customers Table -->
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Join Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTable">
+                                <!-- Customers will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="admin-section">
+                    <h2><i class="fas fa-cog"></i> Website Settings</h2>
+                    
+                    <!-- Settings Tabs -->
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" onclick="showSettingsTab('general')">General</button>
+                        <button class="tab-btn" onclick="showSettingsTab('contact')">Contact</button>
+                        <button class="tab-btn" onclick="showSettingsTab('delivery')">Delivery</button>
+                        <button class="tab-btn" onclick="showSettingsTab('security')">Security</button>
+                    </div>
+                    
+                    <!-- General Settings -->
+                    <div id="generalSettings" class="settings-tab active">
+                        <form id="generalSettingsForm">
+                            <div class="form-group">
+                                <label for="siteName">Website Name</label>
+                                <input type="text" id="siteName" value="Alkhidmah Natural Care Branch">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="siteTagline">Tagline</label>
+                                <input type="text" id="siteTagline" value="প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="siteLogo">Logo URL</label>
+                                <input type="text" id="siteLogo" placeholder="Enter logo image URL">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="siteCurrency">Currency</label>
+                                <select id="siteCurrency">
+                                    <option value="BDT" selected>Bangladeshi Taka (৳)</option>
+                                    <option value="USD">US Dollar ($)</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save General Settings
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Settings -->
+                    <div id="contactSettings" class="settings-tab">
+                        <form id="contactSettingsForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactPhone">Phone Number</label>
+                                    <input type="text" id="contactPhone" value="01949805239">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactWhatsApp">WhatsApp Number</label>
+                                    <input type="text" id="contactWhatsApp" value="01949805239">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactEmail">Email Address</label>
+                                <input type="email" id="contactEmail" value="alkhidmahnturalcarebranch@gmail.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactAddress">Business Address</label>
+                                <textarea id="contactAddress" rows="3">আপনার শাখার ঠিকানা, বাংলাদেশ</textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Contact Settings
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Delivery Settings -->
+                    <div id="deliverySettings" class="settings-tab">
+                        <form id="deliverySettingsForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryCharge">Delivery Charge (৳)</label>
+                                    <input type="number" id="deliveryCharge" value="60" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="freeDeliveryAmount">Free Delivery Above (৳)</label>
+                                    <input type="number" id="freeDeliveryAmount" value="2000" min="0">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryDhaka">Dhaka Delivery Days</label>
+                                    <input type="text" id="deliveryDhaka" value="১-২ কার্যদিবস">
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryOutside">Outside Dhaka Delivery Days</label>
+                                    <input type="text" id="deliveryOutside" value="৩-৫ কার্যদিবস">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Delivery Settings
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Security Settings -->
+                    <div id="securitySettings" class="settings-tab">
+                        <form id="securitySettingsForm">
+                            <div class="form-group">
+                                <label for="adminUsernameInput">Admin Username</label>
+                                <input type="text" id="adminUsernameInput" value="admin">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="adminPasswordInput">New Password</label>
+                                <input type="password" id="adminPasswordInput" placeholder="Enter new password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="adminPasswordConfirm">Confirm Password</label>
+                                <input type="password" id="adminPasswordConfirm" placeholder="Confirm new password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sessionTimeout">Session Timeout (minutes)</label>
+                                <input type="number" id="sessionTimeout" value="60" min="5" max="480">
+                            </div>
+                            
+                            <div class="security-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Changing admin credentials will log you out immediately.</p>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-key"></i> Update Security Settings
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Admin Footer -->
+        <footer class="admin-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <p><strong>Alkhidmah Natural Care Branch</strong> | Admin Panel v1.0</p>
+                        <p>Last Login: <span id="lastLoginTime">Never</span></p>
+                    </div>
+                    <div class="footer-stats">
+                        <p>Server Time: <span id="serverTime">--:--:--</span></p>
+                        <p>Memory Usage: <span id="memoryUsage">-- MB</span></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- =========================================== -->
+    <script>
+    // ===========================================
+    // ADMIN AUTHENTICATION SYSTEM
+    // ===========================================
+    const ADMIN_CONFIG = {
+        username: "admin",
+        password: "alkhidmah@2026",
+        sessionDuration: 60, // minutes
+        version: "1.0"
+    };
+
+    // Global variables
+    let allProducts = [];
+    let editingProductId = null;
+    let sessionTimer;
+    let inactivityTimer;
+
+    // Check authentication on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeAdminSystem();
+        setupEventListeners();
+        initializeProductSystem();
+    });
+
+    function initializeAdminSystem() {
+        const isLoggedIn = localStorage.getItem('adminLoggedIn');
+        const loginTime = localStorage.getItem('adminLoginTime');
+        const currentTime = new Date().getTime();
+        const sessionMs = ADMIN_CONFIG.sessionDuration * 60 * 1000;
+
+        // Check if session is valid
+        if (isLoggedIn === 'true' && loginTime && (currentTime - loginTime) < sessionMs) {
+            // Valid session
+            document.getElementById('adminLoginOverlay').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            updateSessionTimer();
+            loadDashboardData();
+            updateServerTime();
+        } else {
+            // Invalid or expired session
+            document.getElementById('adminLoginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+        }
+        
+        // Update last login time
+        updateLastLoginTime();
+    }
+
+    function setupEventListeners() {
+        // Login form submission
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            adminLogin();
+        });
+
+        // Product form submission
+        const productForm = document.getElementById('productForm');
+        if (productForm) {
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveProduct();
+            });
+        }
+
+        // Settings forms
+        const generalSettingsForm = document.getElementById('generalSettingsForm');
+        const contactSettingsForm = document.getElementById('contactSettingsForm');
+        const deliverySettingsForm = document.getElementById('deliverySettingsForm');
+        const securitySettingsForm = document.getElementById('securitySettingsForm');
+        
+        if (generalSettingsForm) generalSettingsForm.addEventListener('submit', saveGeneralSettings);
+        if (contactSettingsForm) contactSettingsForm.addEventListener('submit', saveContactSettings);
+        if (deliverySettingsForm) deliverySettingsForm.addEventListener('submit', saveDeliverySettings);
+        if (securitySettingsForm) securitySettingsForm.addEventListener('submit', saveSecuritySettings);
+
+        // Track user activity for auto logout
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+        
+        // Initialize inactivity timer
+        resetInactivityTimer();
+    }
+
+    function adminLogin() {
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+
+        if (username === ADMIN_CONFIG.username && password === ADMIN_CONFIG.password) {
+            // Successful login
+            localStorage.setItem('adminLoggedIn', 'true');
+            localStorage.setItem('adminLoginTime', new Date().getTime());
+            
+            // Update UI
+            document.getElementById('adminLoginOverlay').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            
+            // Clear form
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+            
+            // Start session timer
+            updateSessionTimer();
+            
+            // Load dashboard data
+            loadDashboardData();
+            
+            // Show success message
+            showNotification('সফলভাবে লগইন হয়েছে!', 'success');
+            
+            // Log activity
+            logActivity('login', 'User logged in');
+            
+        } else {
+            // Failed login
+            document.getElementById('loginError').style.display = 'block';
+            showNotification('ভুল ইউজারনেম বা পাসওয়ার্ড!', 'error');
+            document.getElementById('adminPassword').value = '';
+        }
+    }
+
+    function adminLogout() {
+        if (confirm('আপনি কি লগআউট করতে চান?')) {
+            // Log activity
+            logActivity('logout', 'User logged out');
+            
+            // Clear session
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            
+            // Show login screen
+            document.getElementById('adminLoginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+            
+            // Show logout message
+            showNotification('সফলভাবে লগআউট করা হয়েছে!', 'success');
+            
+            // Clear session timer
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+            
+            // Clear inactivity timer
+            if (inactivityTimer) {
+                clearTimeout(inactivityTimer);
+            }
+        }
+    }
+
+    function updateSessionTimer() {
+        const loginTime = parseInt(localStorage.getItem('adminLoginTime'));
+        const currentTime = new Date().getTime();
+        const sessionMs = ADMIN_CONFIG.sessionDuration * 60 * 1000;
+        
+        // Clear existing timer
+        if (sessionTimer) {
+            clearInterval(sessionTimer);
+        }
+        
+        // Update timer every second
+        sessionTimer = setInterval(() => {
+            const now = new Date().getTime();
+            const remaining = sessionMs - (now - loginTime);
+            
+            if (remaining <= 0) {
+                // Session expired
+                clearInterval(sessionTimer);
+                showNotification('সেশন মেয়াদ শেষ হয়েছে! আবার লগইন করুন।', 'warning');
+                adminLogout();
+            } else {
+                // Update timer display
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                document.getElementById('sessionTimer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+    }
+
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            inactivityTimer = setTimeout(() => {
+                showNotification('নিষ্ক্রিয়তার কারণে স্বয়ংক্রিয় লগআউট!', 'warning');
+                adminLogout();
+            }, 15 * 60 * 1000); // 15 minutes inactivity
+        }
+    }
+
+    // ===========================================
+    // DASHBOARD FUNCTIONS
+    // ===========================================
+    function loadDashboardData() {
+        // Load products count
+        const products = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        document.getElementById('totalProductsCount').textContent = products.length;
+
+        // Load orders count
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        document.getElementById('totalOrdersCount').textContent = orders.length;
+        
+        // Calculate revenue
+        let totalRevenue = 0;
+        orders.forEach(order => {
+            if (order.order && order.order.total) {
+                totalRevenue += order.order.total;
+            }
+        });
+        document.getElementById('totalRevenue').textContent = `৳ ${totalRevenue.toLocaleString('bn-BD')}`;
+        
+        // Load customers count
+        const customers = getUniqueCustomers(orders);
+        document.getElementById('totalCustomersCount').textContent = customers.length;
+        
+        // Load recent activity
+        loadRecentActivity();
+    }
+
+    function getUniqueCustomers(orders) {
+        const customers = new Map();
+        orders.forEach(order => {
+            if (order.customer && order.customer.mobile) {
+                customers.set(order.customer.mobile, order.customer);
+            }
+        });
+        return Array.from(customers.values());
+    }
+
+    function loadRecentActivity() {
+        const activities = JSON.parse(localStorage.getItem('adminActivities')) || [];
+        const container = document.getElementById('recentActivity');
+        
+        if (activities.length === 0) {
+            container.innerHTML = '<p class="no-data">No recent activity</p>';
+            return;
+        }
+        
+        // Show last 10 activities
+        const recent = activities.slice(-10).reverse();
+        container.innerHTML = recent.map(activity => `
+            <div class="activity-item">
+                <i class="fas fa-${getActivityIcon(activity.action)}"></i>
+                <div class="activity-details">
+                    <p>${getActivityText(activity.action)}</p>
+                    <small>${formatDate(activity.timestamp)}</small>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function getActivityIcon(action) {
+        const icons = {
+            'login': 'sign-in-alt',
+            'logout': 'sign-out-alt',
+            'add_product': 'plus-circle',
+            'edit_product': 'edit',
+            'delete_product': 'trash',
+            'update_order': 'shopping-bag',
+            'update_settings': 'cog'
+        };
+        return icons[action] || 'circle';
+    }
+
+    function getActivityText(action) {
+        const texts = {
+            'login': 'User logged in',
+            'logout': 'User logged out',
+            'add_product': 'New product added',
+            'edit_product': 'Product updated',
+            'delete_product': 'Product deleted',
+            'update_order': 'Order status updated',
+            'update_settings': 'Settings updated'
+        };
+        return texts[action] || 'Activity performed';
+    }
+
+    // ===========================================
+    // PRODUCT MANAGEMENT FUNCTIONS
+    // ===========================================
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.admin-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Remove active class from all nav links
+        document.querySelectorAll('.admin-nav a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Show selected section
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.classList.add('active');
+        }
+        
+        // Add active class to clicked nav link
+        const navLink = document.querySelector(`.admin-nav a[href="#${sectionId}"]`);
+        if (navLink) navLink.classList.add('active');
+        
+        // Load section data
+        if (sectionId === 'products') {
+            loadProducts();
+        } else if (sectionId === 'orders') {
+            loadOrders();
+        } else if (sectionId === 'customers') {
+            loadCustomers();
+        } else if (sectionId === 'dashboard') {
+            loadDashboardData();
+        }
+    }
+
+    // Initialize product system
+    function initializeProductSystem() {
+        // Check if products exist, if not create sample data
+        const products = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        if (products.length === 0) {
+            createSampleProducts();
+        }
+    }
+
+    function createSampleProducts() {
+        const sampleProducts = [
+            {
+                id: 'prod_1',
+                name: 'হরিতকী চূর্ণ',
+                category: 'হেলথ কেয়ার পণ্য',
+                price: '৳ ৩৫০',
+                stock: 25,
+                description: 'প্রাকৃতিক উপাদানে তৈরি হরিতকী চূর্ণ। পরিপাকতন্ত্রের জন্য উপকারী।',
+                details: 'উপকারিতা: পরিপাকতন্ত্রের উন্নতি, ওজন কমানো, রক্ত পরিশোধন। ব্যবহারবিধি: দিনে দুইবার ১ চা চামচ গরম পানির সাথে।',
+                images: ['haritaki.jpg'],
+                status: 'active',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            },
+            {
+                id: 'prod_2',
+                name: 'নিম ক্যাপসুল',
+                category: 'চর্ম, এলার্জি, হাঁপানি ইত্যাদি পণ্য তালিকা',
+                price: '৳ ৫০০',
+                stock: 15,
+                description: 'চর্ম রোগ ও এলার্জির জন্য কার্যকরী নিম ক্যাপসুল।',
+                details: 'উপকারিতা: চর্ম রোগ, এলার্জি, একজিমা, সোরিয়াসিস প্রতিরোধ। ব্যবহারবিধি: দিনে দুইবার ২টি ক্যাপসুল।',
+                images: ['neem.jpg'],
+                status: 'active',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            }
+        ];
+        
+        localStorage.setItem('alkhidmah_products', JSON.stringify(sampleProducts));
+        console.log('Sample products created');
+    }
+
+    // Load products function
+    function loadProducts() {
+        console.log('Loading products...');
+        
+        // Show loading
+        const productsTable = document.getElementById('productsTable');
+        if (productsTable) {
+            productsTable.innerHTML = `
+                <tr id="loadingRow">
+                    <td colspan="8" class="loading-cell">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>পণ্য লোড হচ্ছে...</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        // Load from localStorage
+        allProducts = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        displayProducts(allProducts);
+        updateProductStats(allProducts);
+        updateSyncStatus();
+    }
+
+    // Display products in table
+    function displayProducts(products) {
+        const container = document.getElementById('productsTable');
+        if (!container) return;
+        
+        if (!products || products.length === 0) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="8" class="no-data">
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <h4>কোন পণ্য পাওয়া যায়নি</h4>
+                            <p>প্রথম পণ্য যোগ করুন অথবা সিঙ্ক করুন</p>
+                            <button class="btn" onclick="loadProducts()">
+                                <i class="fas fa-redo"></i> আবার চেষ্টা করুন
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        products.forEach((product, index) => {
+            // Determine stock status
+            const stock = product.stock || 0;
+            let stockClass = 'in-stock';
+            let stockText = stock;
+            
+            if (stock === 0) {
+                stockClass = 'out-stock';
+                stockText = 'স্টক নেই';
+            } else if (stock < 10) {
+                stockClass = 'low-stock';
+                stockText = stock + ' (কম)';
+            }
+            
+            // Determine status
+            const status = product.status || 'active';
+            const statusClass = status === 'active' ? 'status-active' : 'status-inactive';
+            const statusText = status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়';
+            
+            // Get first image
+            const firstImage = product.images && product.images[0] ? product.images[0] : 'default.jpg';
+            
+            html += `
+                <tr>
+                    <td>${product.id || index + 1}</td>
+                    <td>
+                        <div class="product-image-cell">
+                            <img src="images/products/${firstImage}" 
+                                 alt="${product.name}" 
+                                 onerror="this.src='images/default-product.jpg'">
+                        </div>
+                    </td>
+                    <td>
+                        <strong>${product.name}</strong>
+                        <div class="product-description-small">
+                            ${(product.description || '').substring(0, 60)}...
+                        </div>
+                    </td>
+                    <td>
+                        <span class="category-tag">${product.category || 'Unknown'}</span>
+                    </td>
+                    <td>
+                        <span class="price-tag">${product.price || '৳ 0'}</span>
+                    </td>
+                    <td>
+                        <span class="stock-badge ${stockClass}">${stockText}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-edit" onclick="editProduct('${product.id}')" title="এডিট">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action btn-view" onclick="viewProduct('${product.id}')" title="দেখুন">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteProduct('${product.id}')" title="মুছুন">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Save product function
+    async function saveProduct() {
+        // Get form values
+        const productName = document.getElementById('productName').value.trim();
+        const productCategory = document.getElementById('productCategory').value;
+        const productPrice = document.getElementById('productPrice').value;
+        const productStock = document.getElementById('productStock').value;
+        const productDescription = document.getElementById('productDescription').value.trim();
+        const productDetails = document.getElementById('productDetails').value.trim();
+        
+        // Validate
+        if (!productName || !productCategory || !productPrice || !productStock) {
+            showNotification('সকল প্রয়োজনীয় তথ্য পূরণ করুন', 'error');
+            return;
+        }
+        
+        // Create product object
+        const productData = {
+            id: editingProductId || 'prod_' + Date.now(),
+            name: productName,
+            category: productCategory,
+            price: `৳ ${parseInt(productPrice).toLocaleString('bn-BD')}`,
+            stock: parseInt(productStock),
+            description: productDescription,
+            details: productDetails || '',
+            images: [],
+            status: 'active',
+            createdAt: editingProductId ? (allProducts.find(p => p.id === editingProductId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        // Handle images
+        const image1 = document.getElementById('image1').files[0];
+        const image2 = document.getElementById('image2').files[0];
+        const image3 = document.getElementById('image3').files[0];
+        
+        if (image1) {
+            const fileName1 = `product_${productData.id}_1.jpg`;
+            productData.images.push(fileName1);
+        }
+        if (image2) {
+            const fileName2 = `product_${productData.id}_2.jpg`;
+            productData.images.push(fileName2);
+        }
+        if (image3) {
+            const isVideo = image3.type.includes('video');
+            const fileName3 = `product_${productData.id}_3.${isVideo ? 'mp4' : 'jpg'}`;
+            productData.images.push(fileName3);
+        }
+        
+        // Add default images if none uploaded
+        if (productData.images.length === 0) {
+            productData.images = [
+                `product_${productData.id}_1.jpg`,
+                `product_${productData.id}_2.jpg`,
+                `product_${productData.id}_3.jpg`
+            ];
+        }
+        
+        // Save product
+        const products = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        
+        if (editingProductId) {
+            const index = products.findIndex(p => p.id === editingProductId);
+            if (index !== -1) {
+                products[index] = productData;
+            }
+        } else {
+            products.push(productData);
+        }
+        
+        localStorage.setItem('alkhidmah_products', JSON.stringify(products));
+        
+        // Show success message
+        showNotification(
+            editingProductId ? 'পণ্য আপডেট করা হয়েছে!' : 'নতুন পণ্য যোগ করা হয়েছে!', 
+            'success'
+        );
+        
+        // Reset form
+        resetProductForm();
+        
+        // Reload products
+        loadProducts();
+        
+        // Log activity
+        logActivity(
+            editingProductId ? 'edit_product' : 'add_product',
+            `${editingProductId ? 'Updated' : 'Added'} product: ${productData.name}`
+        );
+        
+        // Force sync to website
+        syncToWebsite();
+    }
+
+    // Edit product function
+    function editProduct(productId) {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification('পণ্য খুঁজে পাওয়া যায়নি', 'error');
+            return;
+        }
+        
+        // Fill form
+        document.getElementById('productName').value = product.name;
+        document.getElementById('productCategory').value = product.category;
+        
+        // Extract price number (remove ৳ and commas)
+        const priceNum = product.price.replace(/[৳,]/g, '').trim();
+        document.getElementById('productPrice').value = parseInt(priceNum) || '';
+        
+        document.getElementById('productStock').value = product.stock || 10;
+        document.getElementById('productDescription').value = product.description || '';
+        document.getElementById('productDetails').value = product.details || '';
+        
+        // Set editing mode
+        editingProductId = productId;
+        
+        // Change button text
+        const submitBtn = document.querySelector('#productForm button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> আপডেট করুন';
+        }
+        
+        // Scroll to form
+        document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
+        
+        showNotification('পণ্য এডিট মোডে', 'info');
+    }
+
+    // View product function
+    function viewProduct(productId) {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification('পণ্য খুঁজে পাওয়া যায়নি', 'error');
+            return;
+        }
+        
+        // Show product details in modal
+        const modalHtml = `
+            <div class="modal-overlay" onclick="closeModal()">
+                <div class="modal-content" onclick="event.stopPropagation()">
+                    <div class="modal-header">
+                        <h3>${product.name}</h3>
+                        <button class="modal-close" onclick="closeModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="product-modal-view">
+                            <div class="product-images">
+                                ${product.images && product.images.length > 0 ? 
+                                    `<img src="images/products/${product.images[0]}" alt="${product.name}">` : 
+                                    '<div class="no-image">ছবি নেই</div>'
+                                }
+                            </div>
+                            <div class="product-details">
+                                <p><strong>বিভাগ:</strong> ${product.category}</p>
+                                <p><strong>মূল্য:</strong> ${product.price}</p>
+                                <p><strong>স্টক:</strong> ${product.stock || 0} টি</p>
+                                <p><strong>স্ট্যাটাস:</strong> ${product.status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়'}</p>
+                                <p><strong>বর্ণনা:</strong> ${product.description}</p>
+                                ${product.details ? `<p><strong>বিস্তারিত:</strong> ${product.details}</p>` : ''}
+                                <p><strong>যোগ করার তারিখ:</strong> ${new Date(product.createdAt).toLocaleDateString('bn-BD')}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" onclick="editProduct('${productId}')">
+                            <i class="fas fa-edit"></i> এডিট করুন
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeModal()">
+                            <i class="fas fa-times"></i> বন্ধ করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Create and show modal
+        const modal = document.createElement('div');
+        modal.innerHTML = modalHtml;
+        modal.id = 'productModal';
+        document.body.appendChild(modal);
+    }
+
+    // Delete product function
+    function deleteProduct(productId) {
+        if (!confirm('আপনি কি এই পণ্যটি মুছতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।')) {
+            return;
+        }
+        
+        const products = allProducts.filter(p => p.id !== productId);
+        localStorage.setItem('alkhidmah_products', JSON.stringify(products));
+        showNotification('পণ্য মুছে ফেলা হয়েছে', 'success');
+        loadProducts();
+        
+        // Sync to website
+        syncToWebsite();
+        
+        logActivity('delete_product', `Deleted product ID: ${productId}`);
+    }
+
+    // Reset product form
+    function resetProductForm() {
+        document.getElementById('productForm').reset();
+        editingProductId = null;
+        
+        // Reset previews
+        for (let i = 1; i <= 3; i++) {
+            const preview = document.getElementById(`preview${i}`);
+            const placeholder = document.getElementById(`placeholder${i}`);
+            if (preview) preview.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
+        }
+        
+        // Reset button text
+        const submitBtn = document.querySelector('#productForm button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> পণ্য সংরক্ষণ করুন';
+        }
+    }
+
+    // Image upload functions
+    function triggerUpload(number) {
+        document.getElementById(`image${number}`).click();
+    }
+
+    function previewImage(event, number) {
+        const file = event.target.files[0];
+        const preview = document.getElementById(`preview${number}`);
+        const placeholder = document.getElementById(`placeholder${number}`);
+        
+        if (file && preview && placeholder) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Search products
+    function searchProducts() {
+        const query = document.getElementById('searchProducts').value.toLowerCase();
+        
+        if (!query || !allProducts) {
+            displayProducts(allProducts);
+            return;
+        }
+        
+        const filtered = allProducts.filter(product => 
+            (product.name && product.name.toLowerCase().includes(query)) ||
+            (product.description && product.description.toLowerCase().includes(query)) ||
+            (product.category && product.category.toLowerCase().includes(query))
+        );
+        
+        displayProducts(filtered);
+    }
+
+    // Filter products
+    function filterProducts() {
+        const category = document.getElementById('filterCategory').value;
+        const stock = document.getElementById('filterStock').value;
+        
+        let filtered = allProducts;
+        
+        // Filter by category
+        if (category) {
+            filtered = filtered.filter(p => 
+                p.category && p.category.toLowerCase().includes(category.toLowerCase())
+            );
+        }
+        
+        // Filter by stock
+        if (stock) {
+            filtered = filtered.filter(p => {
+                const stockCount = p.stock || 0;
+                
+                if (stock === 'in_stock') return stockCount > 10;
+                if (stock === 'low_stock') return stockCount > 0 && stockCount <= 10;
+                if (stock === 'out_stock') return stockCount === 0;
+                
+                return true;
+            });
+        }
+        
+        displayProducts(filtered);
+    }
+
+    // Update product statistics
+    function updateProductStats(products) {
+        const total = products.length;
+        const active = products.filter(p => p.status === 'active').length;
+        const lowStock = products.filter(p => (p.stock || 0) > 0 && (p.stock || 0) <= 10).length;
+        const lastUpdate = localStorage.getItem('last_product_update');
+        
+        const totalStat = document.getElementById('totalProductsStat');
+        const activeStat = document.getElementById('activeProductsStat');
+        const lowStockStat = document.getElementById('lowStockStat');
+        const lastUpdateStat = document.getElementById('lastUpdateStat');
+        
+        if (totalStat) totalStat.textContent = total;
+        if (activeStat) activeStat.textContent = active;
+        if (lowStockStat) lowStockStat.textContent = lowStock;
+        
+        if (lastUpdate && lastUpdateStat) {
+            const date = new Date(parseInt(lastUpdate));
+            lastUpdateStat.textContent = date.toLocaleTimeString('bn-BD');
+        }
+    }
+
+    // Update sync status
+    function updateSyncStatus() {
+        const lastUpdate = localStorage.getItem('last_product_update');
+        const productCount = allProducts.length;
+        
+        const globalLastSync = document.getElementById('globalLastSync');
+        const globalProductCount = document.getElementById('globalProductCount');
+        const syncStatusText = document.getElementById('syncStatusText');
+        
+        if (lastUpdate && globalLastSync) {
+            const date = new Date(parseInt(lastUpdate));
+            globalLastSync.textContent = date.toLocaleTimeString('bn-BD');
+        }
+        
+        if (globalProductCount) globalProductCount.textContent = productCount;
+        
+        // Check sync status
+        const websiteProducts = JSON.parse(localStorage.getItem('website_products') || '[]');
+        const isSynced = websiteProducts.length === productCount;
+        
+        if (syncStatusText) {
+            syncStatusText.textContent = isSynced ? 'সিঙ্ক হয়েছে' : 'সিঙ্ক প্রয়োজন';
+            syncStatusText.style.color = isSynced ? '#a3ffb3' : '#ffb3b3';
+        }
+    }
+
+    // Manual sync function
+    function manualSync() {
+        syncToWebsite();
+    }
+
+    // Sync to website
+    function syncToWebsite() {
+        localStorage.setItem('website_products', JSON.stringify(allProducts));
+        localStorage.setItem('last_product_update', new Date().getTime().toString());
+        localStorage.setItem('force_website_refresh', 'true');
+        showNotification('পণ্য ওয়েবসাইটে সিঙ্ক করা হয়েছে!', 'success');
+        updateSyncStatus();
+    }
+
+    // Export products
+    function exportProducts() {
+        const dataStr = JSON.stringify(allProducts, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        const exportFileDefaultName = `alkhidmah_products_${new Date().toISOString().split('T')[0]}.json`;
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+        showNotification(`${allProducts.length}টি পণ্য এক্সপোর্ট করা হয়েছে`, 'success');
+    }
+
+    // Test product save
+    function testProductSave() {
+        const testProduct = {
+            id: 'test_' + Date.now(),
+            name: 'টেস্ট পণ্য - ' + new Date().toLocaleTimeString('bn-BD'),
+            category: 'হেলথ কেয়ার পণ্য',
+            price: '৳ ৯৯৯',
+            stock: 50,
+            description: 'এটি একটি টেস্ট পণ্য। Admin Panel থেকে যোগ করা হয়েছে।',
+            details: 'টেস্টিং এর জন্য তৈরি করা হয়েছে।',
+            images: ['test/product.jpg'],
+            status: 'active',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        const products = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        products.push(testProduct);
+        localStorage.setItem('alkhidmah_products', JSON.stringify(products));
+        
+        showNotification('টেস্ট পণ্য সংরক্ষণ করা হয়েছে!', 'success');
+        loadProducts();
+        
+        // Sync to website
+        setTimeout(() => {
+            syncToWebsite();
+        }, 1000);
+    }
+
+    // Close modal
+    function closeModal() {
+        const modal = document.getElementById('productModal');
+        if (modal) {
+            modal.remove();
+        }
+    }
+
+    // ===========================================
+    // ORDER MANAGEMENT FUNCTIONS
+    // ===========================================
+    function loadOrders() {
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        
+        // Update stats
+        const pending = orders.filter(o => o.order?.status === 'pending').length;
+        const processing = orders.filter(o => o.order?.status === 'processing').length;
+        const completed = orders.filter(o => o.order?.status === 'completed').length;
+        const cancelled = orders.filter(o => o.order?.status === 'cancelled').length;
+        
+        document.getElementById('pendingOrders').textContent = pending;
+        document.getElementById('processingOrders').textContent = processing;
+        document.getElementById('completedOrders').textContent = completed;
+        document.getElementById('cancelledOrders').textContent = cancelled;
+        
+        // Display orders
+        displayOrders(orders);
+    }
+
+    function displayOrders(orders) {
+        const container = document.getElementById('ordersTable');
+        if (!container) return;
+        
+        if (orders.length === 0) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="7" class="no-data">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>No orders found</p>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        // Sort by date (newest first)
+        orders.sort((a, b) => new Date(b.order?.date) - new Date(a.order?.date));
+        
+        container.innerHTML = orders.map(order => `
+            <tr>
+                <td>
+                    <strong>${order.order?.id || 'N/A'}</strong>
+                </td>
+                <td>
+                    <div>${order.customer?.name || 'Unknown'}</div>
+                    <small>${order.customer?.mobile || ''}</small>
+                </td>
+                <td>${formatDate(order.order?.date)}</td>
+                <td>${order.order?.items?.length || 0} items</td>
+                <td>৳ ${order.order?.total?.toLocaleString('bn-BD') || '0'}</td>
+                <td>
+                    <span class="status-badge ${order.order?.status || 'pending'}">
+                        ${order.order?.status || 'pending'}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn-sm btn-view" onclick="viewOrder('${order.order?.id}')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn-sm btn-edit" onclick="editOrder('${order.order?.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // ===========================================
+    // CUSTOMER FUNCTIONS
+    // ===========================================
+    function loadCustomers() {
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const customers = getUniqueCustomers(orders);
+        
+        displayCustomers(customers);
+    }
+
+    function displayCustomers(customers) {
+        const container = document.getElementById('customersTable');
+        if (!container) return;
+        
+        if (customers.length === 0) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="7" class="no-data">
+                        <i class="fas fa-users"></i>
+                        <p>No customers found</p>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        container.innerHTML = customers.map((customer, index) => {
+            // Calculate customer stats
+            const customerOrders = JSON.parse(localStorage.getItem('orders')) || []
+                .filter(order => order.customer?.mobile === customer.mobile);
+            
+            const totalSpent = customerOrders.reduce((sum, order) => 
+                sum + (order.order?.total || 0), 0);
+            
+            return `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${customer.name || 'Unknown'}</td>
+                    <td>${customer.mobile || 'N/A'}</td>
+                    <td>${customer.email || 'N/A'}</td>
+                    <td>${customerOrders.length}</td>
+                    <td>৳ ${totalSpent.toLocaleString('bn-BD')}</td>
+                    <td>${formatDate(customerOrders[0]?.order?.date) || 'N/A'}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // ===========================================
+    // SETTINGS FUNCTIONS
+    // ===========================================
+    function showSettingsTab(tabId) {
+        // Hide all tabs
+        document.querySelectorAll('.settings-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Remove active class from all tab buttons
+        document.querySelectorAll('.settings-tabs .tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected tab
+        const tab = document.getElementById(tabId + 'Settings');
+        if (tab) tab.classList.add('active');
+        
+        // Add active class to clicked button
+        event.currentTarget.classList.add('active');
+    }
+
+    function saveGeneralSettings(e) {
+        e.preventDefault();
+        showNotification('General settings saved!', 'success');
+        logActivity('update_settings', 'Updated general settings');
+    }
+
+    function saveContactSettings(e) {
+        e.preventDefault();
+        showNotification('Contact settings saved!', 'success');
+        logActivity('update_settings', 'Updated contact settings');
+    }
+
+    function saveDeliverySettings(e) {
+        e.preventDefault();
+        showNotification('Delivery settings saved!', 'success');
+        logActivity('update_settings', 'Updated delivery settings');
+    }
+
+    function saveSecuritySettings(e) {
+        e.preventDefault();
+        const newPassword = document.getElementById('adminPasswordInput').value;
+        const confirmPassword = document.getElementById('adminPasswordConfirm').value;
+        
+        if (newPassword && newPassword !== confirmPassword) {
+            showNotification('Passwords do not match!', 'error');
+            return;
+        }
+        
+        if (newPassword) {
+            // In production, this would be hashed and sent to server
+            showNotification('Password updated successfully!', 'success');
+            logActivity('update_settings', 'Updated security settings');
+            
+            // Logout user for security
+            setTimeout(() => {
+                adminLogout();
+            }, 2000);
+        } else {
+            showNotification('Security settings saved!', 'success');
+        }
+    }
+
+    // ===========================================
+    // UTILITY FUNCTIONS
+    // ===========================================
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existing = document.querySelector('.notification');
+        if (existing) existing.remove();
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                 type === 'error' ? 'exclamation-circle' : 
+                                 type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            </div>
+            <button onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#27ae60' : 
+                         type === 'error' ? '#e74c3c' : 
+                         type === 'warning' ? '#f39c12' : '#3498db'};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+        `;
+        
+        // Add animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Add to body
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    function logActivity(action, description) {
+        const activities = JSON.parse(localStorage.getItem('adminActivities')) || [];
+        const activity = {
+            action: action,
+            description: description,
+            timestamp: new Date().toISOString(),
+            user: 'admin'
+        };
+        
+        activities.push(activity);
+        
+        // Keep only last 50 activities
+        if (activities.length > 50) {
+            activities.shift();
+        }
+        
+        localStorage.setItem('adminActivities', JSON.stringify(activities));
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('bn-BD') + ' ' + date.toLocaleTimeString('bn-BD');
+    }
+
+    function updateLastLoginTime() {
+        const loginTime = localStorage.getItem('adminLoginTime');
+        if (loginTime) {
+            document.getElementById('lastLoginTime').textContent = formatDate(loginTime);
+        }
+    }
+
+    function updateServerTime() {
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('serverTime').textContent = 
+                now.toLocaleTimeString('bn-BD');
+        }, 1000);
+    }
+
+    function exportData() {
+        // Export products
+        const products = JSON.parse(localStorage.getItem('alkhidmah_products')) || [];
+        const productsBlob = new Blob([JSON.stringify(products, null, 2)], 
+            { type: 'application/json' });
+        
+        // Export orders
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const ordersBlob = new Blob([JSON.stringify(orders, null, 2)], 
+            { type: 'application/json' });
+        
+        // Create download links
+        const productsLink = document.createElement('a');
+        productsLink.href = URL.createObjectURL(productsBlob);
+        productsLink.download = `products_${new Date().toISOString().split('T')[0]}.json`;
+        
+        const ordersLink = document.createElement('a');
+        ordersLink.href = URL.createObjectURL(ordersBlob);
+        ordersLink.download = `orders_${new Date().toISOString().split('T')[0]}.json`;
+        
+        // Trigger downloads
+        productsLink.click();
+        setTimeout(() => ordersLink.click(), 100);
+        
+        showNotification('Data exported successfully!', 'success');
+    }
+
+    // Additional CSS for product management
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Image Upload */
+        .image-upload-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .image-upload-box {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            height: 150px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .image-upload-box:hover {
+            border-color: #1a6d2c;
+            background: #f9fffa;
+        }
+        
+        .upload-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+        }
+        
+        .upload-placeholder i {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-placeholder p {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .upload-placeholder small {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .upload-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        
+        /* Product Controls */
+        .product-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-actions select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            min-width: 120px;
+        }
+        
+        /* Product Table */
+        .product-image-cell {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        
+        .product-image-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-description-small {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.3;
+        }
+        
+        .category-tag {
+            background: #e8f5e9;
+            color: #1a6d2c;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .price-tag {
+            font-weight: bold;
+            color: #1a6d2c;
+            font-size: 16px;
+        }
+        
+        .stock-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .stock-badge.in-stock {
+            background: #e8f5e9;
+            color: #1a6d2c;
+        }
+        
+        .stock-badge.low-stock {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .stock-badge.out-stock {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-badge.status-active {
+            background: #e8f5e9;
+            color: #1a6d2c;
+        }
+        
+        .status-badge.status-inactive {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-action.btn-edit {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-action.btn-view {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-action.btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Product Stats */
+        .product-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .stat-item i {
+            font-size: 24px;
+            color: #1a6d2c;
+        }
+        
+        .stat-item h4 {
+            margin: 0 0 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .stat-item p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a6d2c;
+        }
+        
+        /* Loading State */
+        .loading-cell {
+            text-align: center;
+            padding: 40px !important;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+        }
+        
+        .loading-spinner i {
+            font-size: 36px;
+        }
+        
+        .loading-spinner p {
+            margin: 0;
+        }
+        
+        /* Empty State */
+        .no-data {
+            text-align: center;
+            padding: 60px 20px !important;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: #888;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h4 {
+            margin: 0;
+            color: #666;
+        }
+        
+        .empty-state p {
+            margin: 0;
+            max-width: 300px;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #1a6d2c;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .product-modal-view {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .product-images img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .no-image {
+            width: 100%;
+            height: 300px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+        
+        .product-details p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .product-details strong {
+            color: #333;
+            min-width: 100px;
+            display: inline-block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .product-modal-view {
+                grid-template-columns: 1fr;
+            }
+            
+            .image-upload-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            .filter-actions select {
+                width: 100%;
+            }
+            
+            .product-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Admin Table Styles */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .admin-table th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .admin-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: #1a6d2c;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1a6d2c;
+        }
+        
+        .stat-info h3 {
+            margin: 0 0 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .stat-info p {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a6d2c;
+        }
+        
+        /* Orders Stats */
+        .orders-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-badge {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-badge.pending {
+            border-top: 4px solid #f39c12;
+        }
+        
+        .stat-badge.processing {
+            border-top: 4px solid #3498db;
+        }
+        
+        .stat-badge.completed {
+            border-top: 4px solid #27ae60;
+        }
+        
+        .stat-badge.cancelled {
+            border-top: 4px solid #e74c3c;
+        }
+        
+        .stat-badge i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-badge span {
+            display: block;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-badge small {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Settings Tabs */
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: #1a6d2c;
+            color: white;
+        }
+        
+        .settings-tab {
+            display: none;
+        }
+        
+        .settings-tab.active {
+            display: block;
+        }
+        
+        .security-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .security-warning i {
+            color: #f39c12;
+            font-size: 20px;
+        }
+    `;
+    
+    document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Alkhidmah Natural Care Branch</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header (Same as index) -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="logo">Alkhidmah Natural <span>Care Branch</span></h1>
+                <p class="tagline">প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য</p>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="পণ্য খুঁজুন...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-cog"></i> Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation (Same as index) -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html"><i class="fas fa-home"></i> হোম</a>
+            <a href="products.html"><i class="fas fa-box"></i> সকল পণ্য</a>
+            <a href="#health"><i class="fas fa-heartbeat"></i> হেলথ কেয়ার</a>
+            <a href="#combo"><i class="fas fa-gift"></i> কম্বো অফার</a>
+            <a href="#skin"><i class="fas fa-allergies"></i> চর্ম ও এলার্জি</a>
+            <a href="#cosmetics"><i class="fas fa-spa"></i> কসমেটিক্স</a>
+            <a href="#sexual"><i class="fas fa-user-md"></i> যৌন রোগ</a>
+            <a href="contact.html"><i class="fas fa-address-book"></i> যোগাযোগ</a>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <main class="cart-main">
+        <div class="container">
+            <h1 class="page-title"><i class="fas fa-shopping-cart"></i> আপনার শপিং কার্ট</h1>
+            
+            <div class="cart-wrapper">
+                <!-- Cart Items -->
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items loaded by JavaScript -->
+                    <div class="empty-cart" id="emptyCart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>আপনার কার্ট খালি</h3>
+                        <p>কার্টে কোন পণ্য নেই। পণ্য যোগ করতে ব্রাউজ করুন।</p>
+                        <a href="products.html" class="btn">পণ্য ব্রাউজ করুন</a>
+                    </div>
+                </div>
+                
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <h3><i class="fas fa-receipt"></i> অর্ডার সারসংক্ষেপ</h3>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>মোট পণ্য মূল্য</span>
+                            <span id="subtotal">৳ ০</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>ডেলিভারি চার্জ</span>
+                            <span id="delivery">৳ ৬০</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>ডিসকাউন্ট</span>
+                            <span id="discount">-৳ ০</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>মোট পরিশোধযোগ্য</span>
+                            <span id="total">৳ ৬০</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Delivery Info -->
+                    <div class="delivery-info">
+                        <h4><i class="fas fa-shipping-fast"></i> ডেলিভারি তথ্য</h4>
+                        <p>ঢাকার ভিতরে ১-২ কার্যদিবস, অন্যান্য জেলা ৩-৫ কার্যদিবস</p>
+                        <p>ক্যাশ অন ডেলিভারি (COD) সুবিধা উপলব্ধ</p>
+                    </div>
+                    
+                    <!-- Checkout Button -->
+                    <button class="btn btn-checkout" onclick="proceedToCheckout()">
+                        <i class="fas fa-lock"></i> নিরাপদ চেকআউট
+                    </button>
+                    
+                    <!-- Continue Shopping -->
+                    <a href="products.html" class="continue-shopping">
+                        <i class="fas fa-arrow-left"></i> আরও পণ্য দেখুন
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Recommended Products -->
+            <div class="recommended-products">
+                <h3><i class="fas fa-star"></i> আপনার জন্য সুপারিশকৃত</h3>
+                <div class="products-grid" id="recommendedProducts">
+                    <!-- Recommended products loaded by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Alkhidmah Natural Care Branch</h3>
+                    <p>প্রকৃতির উপাদানে তৈরি বিশুদ্ধ স্বাস্থ্য ও সৌন্দর্য পণ্য। বাংলাদেশের বিভিন্ন রোগের প্রাকৃতিক সমাধান।</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>যোগাযোগ</h3>
+                    <p><i class="fas fa-phone"></i> ফোন: <strong>01949805239</strong></p>
+                    <p><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ: <strong>01949805239</strong></p>
+                    <p><i class="fas fa-envelope"></i> ইমেইল: <strong>alkhidmahnturalcarebranch@gmail.com</strong></p>
+                    <p><i class="fas fa-map-marker-alt"></i> ঠিকানা: আপনার শাখার ঠিকানা, বাংলাদেশ</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>দ্রুত লিংক</h3>
+                    <ul>
+                        <li><a href="index.html">হোম</a></li>
+                        <li><a href="products.html">পণ্য তালিকা</a></li>
+                        <li><a href="cart.html">আপনার কার্ট</a></li>
+                        <li><a href="contact.html">যোগাযোগ</a></li>
+                        <li><a href="admin.html">অ্যাডমিন প্যানেল</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>গুরুত্বপূর্ণ</h3>
+                    <ul>
+                        <li><a href="#">গোপনীয়তা নীতি</a></li>
+                        <li><a href="#">রিটার্ন পলিসি</a></li>
+                        <li><a href="#">ডেলিভারি পলিসি</a></li>
+                        <li><a href="#">শর্তাবলী</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alkhidmah Natural Care Branch. All Rights Reserved. | Developed with <i class="fas fa-heart"></i> for Natural Healthcare</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

@@ -1,435 +1,480 @@
+<!-- Database Loader -->
+<script>
+// Load products for website
+function loadWebsiteProducts() {
+    try {
+        // First try to get from central database
+        if (window.PRODUCT_DB) {
+            return PRODUCT_DB.getAllProducts();
+        }
+        
+        // If not available, try localStorage
+        const localProducts = JSON.parse(localStorage.getItem('website_products')) || [];
+        
+        // If still empty, load from file
+        if (localProducts.length === 0) {
+            fetch('data/products.json')
+                .then(response => response.json())
+                .then(fileProducts => {
+                    localStorage.setItem('website_products', JSON.stringify(fileProducts));
+                    return fileProducts;
+                })
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                    return [];
+                });
+        }
+        
+        return localProducts;
+        
+    } catch (error) {
+        console.error('Error in loadWebsiteProducts:', error);
+        return [];
+    }
+}
+
+// Check for new products from admin panel
+function checkForNewProducts() {
+    const lastUpdate = localStorage.getItem('latest_products_update');
+    const currentTime = new Date().getTime();
+    
+    // If update was within last 5 seconds, refresh
+    if (lastUpdate && (currentTime - lastUpdate < 5000)) {
+        console.log('New products detected, refreshing...');
+        
+        // Reload products
+        if (window.loadProducts) {
+            loadProducts();
+        }
+        
+        // Update cart if needed
+        if (window.updateCartCount) {
+            updateCartCount();
+        }
+    }
+}
+
+// Initialize on website load
+document.addEventListener('DOMContentLoaded', function() {
+    // Load products
+    if (window.loadProducts) {
+        loadProducts();
+    }
+    
+    // Check for new products every 3 seconds
+    setInterval(checkForNewProducts, 3000);
+});
+</script>
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alkhidmah Natural Care Branch - প্রাকৃতিক স্বাস্থ্য সেবা</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Alkhidmah Natural Care | Pure Health & Beauty Products</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: #2e7d32;
-            color: white;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        
-        .logo p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        nav a:hover, nav a.active {
-            background-color: rgba(255,255,255,0.2);
-        }
-        
-        .contact-header {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .phone-btn, .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.3s;
-        }
-        
-        .phone-btn {
-            background-color: #1b5e20;
-            color: white;
-        }
-        
-        .whatsapp-btn {
-            background-color: #25D366;
-            color: white;
-        }
-        
-        .phone-btn:hover, .whatsapp-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        .hero-content h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        
-        .hero-content p {
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .btn {
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            transition: all 0.3s;
-        }
-        
-        .primary-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .secondary-btn {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        /* Products Section */
-        .featured-products {
-            padding: 80px 0;
-            background-color: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 50px;
-            color: #2e7d32;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: #4CAF50;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .product-card {
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .product-image {
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-info h3 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-            font-size: 22px;
-        }
-        
-        .product-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #1b5e20;
-            color: white;
-            padding: 50px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-col h3 {
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero-content h2 {
-                font-size: 28px;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <h1>Alkhidmah Natural Care Branch</h1>
-                <p>প্রাকৃতিক উপায়ে সুস্থ জীবন</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="logo">Alkhidmah Natural <span>Care Branch</span></h1>
+                <p class="tagline">প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য</p>
             </div>
             
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li>
-                    <li><a href="products.html"><i class="fas fa-leaf"></i> পণ্য তালিকা</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</a></li>
-                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> যোগাযোগ</a></li>
-                </ul>
-            </nav>
-            
-            <div class="contact-header">
-                <a href="tel:01949805239" class="phone-btn">
-                    <i class="fas fa-phone"></i> ০১৯৪৯-৮০৫২৩৯
-                </a>
-                <a href="https://wa.me/8801949805239" class="whatsapp-btn" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
+            <div class="header-right">
+                <!-- Search Box -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="পণ্য খুঁজুন...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <!-- Cart -->
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <!-- Admin Link -->
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-cog"></i> Admin
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <section class="hero">
+    <!-- Navigation -->
+    <nav class="navbar">
         <div class="container">
-            <div class="hero-content">
-                <h2>প্রকৃতির শক্তি, আপনার সুস্থতা</h2>
-                <p>১০০% প্রাকৃতিক ও অর্গানিক হারবাল পণ্য। দীর্ঘদিনের ঐতিহ্যবাহী চিকিৎসা পদ্ধতির উপর ভিত্তি করে তৈরি আমাদের সকল পণ্য।</p>
-                <div class="cta-buttons">
-                    <a href="#products" class="btn primary-btn">পণ্য দেখুন</a>
-                    <a href="contact.html" class="btn secondary-btn">অর্ডার করুন</a>
+            <a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a>
+            <a href="products.html"><i class="fas fa-box"></i> সকল পণ্য</a>
+            <a href="#health"><i class="fas fa-heartbeat"></i> হেলথ কেয়ার</a>
+            <a href="#combo"><i class="fas fa-gift"></i> কম্বো অফার</a>
+            <a href="#skin"><i class="fas fa-allergies"></i> চর্ম ও এলার্জি</a>
+            <a href="#cosmetics"><i class="fas fa-spa"></i> কসমেটিক্স</a>
+            <a href="#sexual"><i class="fas fa-user-md"></i> যৌন রোগ</a>
+            <a href="contact.html"><i class="fas fa-address-book"></i> যোগাযোগ</a>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <div class="banner-content">
+                <h2>প্রকৃতির সেরা উপহার</h2>
+                <p>১০০% হার্বাল ও প্রাকৃতিক উপাদানে তৈরি স্বাস্থ্য পণ্য</p>
+                <a href="products.html" class="btn">পণ্য দেখুন</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">পণ্য বিভাগসমূহ</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterCategory('health-care')">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>হেলথ কেয়ার</h3>
+                    <p>সুস্বাস্থ্যের জন্য প্রয়োজনীয় সকল পণ্য</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('skin-care')">
+                    <i class="fas fa-allergies"></i>
+                    <h3>চর্ম ও এলার্জি</h3>
+                    <p>চর্ম রোগ, হাঁপানি, এলার্জি প্রতিকার</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('sexual-health')">
+                    <i class="fas fa-user-md"></i>
+                    <h3>যৌন রোগ</h3>
+                    <p>পুরুষ ও মহিলাদের যৌন সমস্যার সমাধান</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('cosmetics')">
+                    <i class="fas fa-spa"></i>
+                    <h3>কসমেটিক্স</h3>
+                    <p>প্রাকৃতিক সৌন্দর্য চর্চার পণ্য</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Featured Products -->
-    <section id="products" class="featured-products">
+    <section class="featured-products">
         <div class="container">
-            <h2 class="section-title">আমাদের সেরা পণ্য</h2>
-            <div class="products-grid">
-                <!-- হলুদ -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="products/হলুদ/images/হলুদ-গুঁড়া.jpg" alt="হলুদ গুঁড়া">
-                    </div>
-                    <div class="product-info">
-                        <h3>হলুদ গুঁড়া</h3>
-                        <p>১০০% খাঁটি, অ্যান্টি-ইনফ্লেমেটরি গুণ সম্পন্ন। প্রদাহনাশক, রক্তশোধনকারী ও রোগ প্রতিরোধ ক্ষমতা বৃদ্ধিকারী।</p>
-                        <a href="products/হলুদ/index.html" class="product-link">বিস্তারিত দেখুন</a>
-                    </div>
-                </div>
-                
-                <!-- তুলসী -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="products/তুলসী/images/তুলসী-পাতা.jpg" alt="তুলসী পাতা">
-                    </div>
-                    <div class="product-info">
-                        <h3>তুলসী পাতা</h3>
-                        <p>প্রতিরোধ ক্ষমতা বৃদ্ধি, শ্বাসতন্ত্রের সমস্যা সমাধান, মানসিক চাপ কমাতে সহায়ক।</p>
-                        <a href="products/তুলসী/index.html" class="product-link">বিস্তারিত দেখুন</a>
-                    </div>
-                </div>
-                
-                <!-- নিম -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="products/নিম/images/নিম-পাতা.jpg" alt="নিম পাতা">
-                    </div>
-                    <div class="product-info">
-                        <h3>নিম পাতা</h3>
-                        <p>রক্ত পরিশোধন, ত্বকের রোগ, ডায়াবেটিস নিয়ন্ত্রণ ও ব্যাকটেরিয়া প্রতিরোধে সহায়ক।</p>
-                        <a href="products/নিম/index.html" class="product-link">বিস্তারিত দেখুন</a>
-                    </div>
-                </div>
+            <h2 class="section-title">জনপ্রিয় পণ্য</h2>
+            <div class="products-grid" id="featuredProducts">
+                <!-- Products loaded by JavaScript -->
             </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="products.html" class="btn primary-btn">সমস্ত পণ্য দেখুন (১০০+ পণ্য)</a>
+            <div class="text-center">
+                <a href="products.html" class="btn">সকল পণ্য দেখুন</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-grid">
                 <div class="footer-col">
                     <h3>Alkhidmah Natural Care Branch</h3>
-                    <p>প্রাকৃতিক উপায়ে সুস্থ জীবনযাপনের জন্য আমরা নিবেদিত। আমাদের সকল পণ্য সংগ্রহ করা হয় প্রকৃতি থেকে এবং প্রক্রিয়াজাত করা হয় বৈজ্ঞানিক পদ্ধতিতে।</p>
-                </div>
-                
-                <div class="footer-col">
-                    <h3>দ্রুত লিঙ্ক</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">হোম</a></li>
-                        <li><a href="products.html">পণ্য তালিকা</a></li>
-                        <li><a href="about.html">আমাদের সম্পর্কে</a></li>
-                        <li><a href="contact.html">যোগাযোগ</a></li>
-                    </ul>
+                    <p>প্রকৃতির উপাদানে তৈরি বিশুদ্ধ স্বাস্থ্য ও সৌন্দর্য পণ্য। বাংলাদেশের বিভিন্ন রোগের প্রাকৃতিক সমাধান।</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
                 
                 <div class="footer-col">
                     <h3>যোগাযোগ</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-phone"></i> <a href="tel:01949805239">০১৯৪৯-৮০৫২৩৯</a></li>
-                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/8801949805239">WhatsApp</a></li>
-                        <li><i class="fas fa-envelope"></i> alkhidmah.natural@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ঢাকা, বাংলাদেশ</li>
+                    <p><i class="fas fa-phone"></i> ফোন: <strong>01949805239</strong></p>
+                    <p><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ: <strong>01949805239</strong></p>
+                    <p><i class="fas fa-envelope"></i> ইমেইল: <strong>alkhidmahnturalcarebranch@gmail.com</strong></p>
+                    <p><i class="fas fa-map-marker-alt"></i> ঠিকানা: আপনার শাখার ঠিকানা, বাংলাদেশ</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>দ্রুত লিংক</h3>
+                    <ul>
+                        <li><a href="index.html">হোম</a></li>
+                        <li><a href="products.html">পণ্য তালিকা</a></li>
+                        <li><a href="cart.html">আপনার কার্ট</a></li>
+                        <li><a href="contact.html">যোগাযোগ</a></li>
+                        <li><a href="admin.html">অ্যাডমিন প্যানেল</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>গুরুত্বপূর্ণ</h3>
+                    <ul>
+                        <li><a href="#">গোপনীয়তা নীতি</a></li>
+                        <li><a href="#">রিটার্ন পলিসি</a></li>
+                        <li><a href="#">ডেলিভারি পলিসি</a></li>
+                        <li><a href="#">শর্তাবলী</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="copyright">
-                <p>&copy; ২০২৪ Alkhidmah Natural Care Branch. সকল স্বত্ব সংরক্ষিত।</p>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alkhidmah Natural Care Branch. All Rights Reserved. | Developed with <i class="fas fa-heart"></i> for Natural Healthcare</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+            updateCartCount();
+        });
+        
+        function filterCategory(category) {
+            localStorage.setItem('selectedCategory', category);
+            window.location.href = 'products.html';
+        }
+    </script>
+<!-- Product Loading System for Website -->
+<script>
+// Website Product Loader
+const WEBSITE_PRODUCTS = {
+    // Get products for website
+    getProducts: function() {
+        try {
+            console.log('🌐 Loading products for website...');
+            
+            // Priority 1: Sync system products
+            const syncProducts = JSON.parse(localStorage.getItem('website_products')) || [];
+            
+            // Priority 2: Central database
+            let dbProducts = [];
+            if (window.PRODUCT_DB && PRODUCT_DB.getAllProducts) {
+                dbProducts = PRODUCT_DB.getAllProducts();
+            }
+            
+            // Priority 3: Local backup
+            const backupProducts = JSON.parse(localStorage.getItem('all_products_backup')) || [];
+            
+            // Priority 4: Default file
+            let fileProducts = [];
+            
+            // Merge with priority: DB > Sync > Backup > File
+            const allProductsMap = new Map();
+            
+            // Add file products first (lowest priority)
+            fileProducts.forEach(p => {
+                if (p && p.id) allProductsMap.set(p.id, p);
+            });
+            
+            // Add backup products
+            backupProducts.forEach(p => {
+                if (p && p.id) allProductsMap.set(p.id, p);
+            });
+            
+            // Add sync products
+            syncProducts.forEach(p => {
+                if (p && p.id) allProductsMap.set(p.id, p);
+            });
+            
+            // Add DB products (highest priority)
+            dbProducts.forEach(p => {
+                if (p && p.id) allProductsMap.set(p.id, p);
+            });
+            
+            const finalProducts = Array.from(allProductsMap.values());
+            
+            // Filter only active products for website
+            const activeProducts = finalProducts.filter(p => 
+                p.status === 'active' || p.status === undefined
+            );
+            
+            console.log('✅ Website products loaded:', activeProducts.length);
+            return activeProducts;
+            
+        } catch (error) {
+            console.error('❌ Error loading website products:', error);
+            return this.getFallbackProducts();
+        }
+    },
+    
+    // Fallback products
+    getFallbackProducts: function() {
+        console.log('⚠️ Using fallback products');
+        
+        // Try localStorage first
+        const localProducts = JSON.parse(localStorage.getItem('website_products')) || [];
+        if (localProducts.length > 0) {
+            return localProducts;
+        }
+        
+        // Try default file
+        return [
+            {
+                id: 1,
+                name: "হেলথ কেয়ার সিরাপ",
+                category: "হেলথ কেয়ার পণ্য",
+                price: "৳ ১,২০০",
+                description: "সুস্বাস্থ্যের জন্য প্রয়োজনীয় হার্বাল সিরাপ।",
+                images: ["product_1/1.jpg"],
+                stock: 20
+            },
+            {
+                id: 2,
+                name: "চর্ম রোগের ক্রিম",
+                category: "চর্ম, এলার্জি, হাঁপানি ইত্যাদি পন্য তালিকা",
+                price: "৳ ৭৫০",
+                description: "একজিমা, সোরিয়াসিস ও চর্ম রোগের জন্য কার্যকরী ক্রিম।",
+                images: ["product_2/1.jpg"],
+                stock: 15
+            }
+        ];
+    },
+    
+    // Check for updates from admin
+    checkForUpdates: function() {
+        const forceRefresh = localStorage.getItem('force_website_refresh');
+        const lastUpdate = localStorage.getItem('last_product_update');
+        const lastCheck = localStorage.getItem('website_last_check') || 0;
+        
+        if (forceRefresh === 'true' || (lastUpdate && lastUpdate > lastCheck)) {
+            console.log('🔄 Website products update detected');
+            
+            // Clear flag
+            localStorage.removeItem('force_website_refresh');
+            
+            // Update check time
+            localStorage.setItem('website_last_check', new Date().getTime());
+            
+            // Reload products
+            this.refreshProducts();
+            
+            return true;
+        }
+        
+        return false;
+    },
+    
+    // Refresh products on website
+    refreshProducts: function() {
+        console.log('♻️ Refreshing website products...');
+        
+        // Get fresh products
+        const products = this.getProducts();
+        
+        // Update featured products
+        if (window.loadFeaturedProducts && typeof loadFeaturedProducts === 'function') {
+            loadFeaturedProducts();
+        }
+        
+        // Update all products if on products page
+        if (window.location.pathname.includes('products.html')) {
+            if (window.loadProducts && typeof loadProducts === 'function') {
+                loadProducts();
+            }
+        }
+        
+        // Update product details if on product page
+        if (window.location.pathname.includes('product-details.html')) {
+            if (window.loadProductDetails && typeof loadProductDetails === 'function') {
+                loadProductDetails();
+            }
+        }
+        
+        // Show notification
+        if (window.showNotification && typeof showNotification === 'function') {
+            showNotification('নতুন পণ্য আপডেট করা হয়েছে!', 'success');
+        }
+        
+        console.log('✅ Website refreshed');
+        return products.length;
+    },
+    
+    // Initialize website product system
+    initialize: function() {
+        console.log('🚀 Initializing Website Product System...');
+        
+        // Load products initially
+        this.getProducts();
+        
+        // Check for updates every 5 seconds
+        setInterval(() => {
+            this.checkForUpdates();
+        }, 5000);
+        
+        // Also check on focus
+        window.addEventListener('focus', () => {
+            this.checkForUpdates();
+        });
+        
+        console.log('✅ Website Product System ready');
+    }
+};
+
+// Initialize on website load
+document.addEventListener('DOMContentLoaded', function() {
+    WEBSITE_PRODUCTS.initialize();
+    
+    // Update loadFeaturedProducts function
+    if (typeof loadFeaturedProducts === 'function') {
+        // Override or enhance existing function
+        const originalLoadFeaturedProducts = loadFeaturedProducts;
+        
+        window.loadFeaturedProducts = async function() {
+            try {
+                // Use website products system
+                const products = WEBSITE_PRODUCTS.getProducts();
+                const featured = products.slice(0, 8);
+                
+                // Display products
+                const container = document.getElementById('featuredProducts');
+                if (container) {
+                    container.innerHTML = featured.map(product => `
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="images/products/${product.images?.[0] || 'default.jpg'}" 
+                                     alt="${product.name}" 
+                                     class="product-img"
+                                     onerror="this.src='images/default-product.jpg'">
+                                ${product.category && product.category.includes('কম্বো') ? 
+                                    '<span class="product-badge">কম্বো</span>' : ''}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">${product.name}</h3>
+                                <p class="product-description">${(product.description || '').substring(0, 80)}...</p>
+                                <p class="product-price">${product.price || '৳ ০'}</p>
+                                <div class="product-actions">
+                                    <button class="btn-cart" 
+                                            onclick="addToCart({
+                                                id: '${product.id}',
+                                                name: '${product.name.replace(/'/g, "\\'")}',
+                                                price: '${product.price}'
+                                            })">
+                                        <i class="fas fa-cart-plus"></i> কার্টে যোগ
+                                    </button>
+                                    <button class="btn-view" onclick="window.location.href='product-details.html?id=${product.id}'">
+                                        <i class="fas fa-eye"></i> বিস্তারিত
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                
+            } catch (error) {
+                console.error('Error in loadFeaturedProducts:', error);
+                // Fallback to original function
+                if (originalLoadFeaturedProducts) {
+                    originalLoadFeaturedProducts();
+                }
+            }
+        };
+    }
+});
+
+// Make available globally
+window.WEBSITE_PRODUCTS = WEBSITE_PRODUCTS;
+</script>
 </body>
 </html>

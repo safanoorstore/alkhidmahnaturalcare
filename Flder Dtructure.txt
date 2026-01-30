@@ -1,0 +1,37 @@
+alkhidmah-natural-care-branch/
+│
+├── index.html # মূল হোমপেজ
+├── products.html # সকল পণ্যের তালিকা
+├── cart.html # কার্ট পৃষ্ঠা
+├── checkout.html # চেকআউট/অর্ডার পৃষ্ঠা
+├── contact.html # আলাদা কন্টাক্ট পৃষ্ঠা (ইংরেজি)
+├── admin.html # পণ্য ম্যানেজমেন্ট ড্যাশবোর্ড
+│
+├── css/
+│   ├── style.css # প্রধান স্টাইলশীট
+│   └── admin.css # অ্যাডমিন প্যানেলের স্টাইল
+│
+├── js/
+│   ├── main.js # সার্চ, কার্ট, স্ক্রলিং ফাংশন
+│   ├── admin.js # পণ্য Add/Delete লজিক
+│   └── checkout.js # চেকআউট ভ্যালিডেশন
+│
+├── images/
+│   ├── logo.png
+│   ├── products/
+│   │   ├── product_1/
+│   │   │   ├── 1.jpg
+│   │   │   ├── 2.jpg
+│   │   │   └── 3.jpg
+│   │   ├── product_2/
+│   │   │   ├── 1.jpg
+│   │   │   ├── 2.jpg
+│   │   │   └── 3.mp4 (যদি ভিডিও থাকে)
+│   │   └── ...
+│   └── banners/
+│       └── banner.jpg
+│
+├── data/
+│   └── products.json # সকল পণ্যের ডেটা (হুবহু আসল সাইটের)
+│
+└── README.txt # কিভাবে পণ্য যোগ/বিয়োগ করবেন তার নির্দেশিকা

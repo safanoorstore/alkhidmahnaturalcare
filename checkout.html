@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>চেকআউট - Alkhidmah Natural Care Branch</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* চেকআউট পৃষ্ঠার স্টাইল */
+        .checkout-page {
+            padding: 40px 0;
+            min-height: 70vh;
+        }
+        
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .checkout-header h1 {
+            color: var(--primary-green);
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .checkout-header p {
+            color: var(--text-light);
+            font-size: 18px;
+        }
+        
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .checkout-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: #ddd;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 150px;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-icon {
+            background: var(--primary-green);
+        }
+        
+        .step.completed .step-icon {
+            background: var(--secondary-green);
+        }
+        
+        .step-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+        
+        .checkout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .checkout-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ফর্ম স্টাইল */
+        .checkout-form {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .form-group label.required::after {
+            content: ' *';
+            color: #ff4757;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 109, 44, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* পেমেন্ট মেথড */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+        
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary-green);
+        }
+        
+        .payment-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-dark);
+        }
+        
+        .payment-info p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* অর্ডার সামারি */
+        .order-summary {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .order-summary h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-green);
+        }
+        
+        .order-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            flex: 1;
+            color: var(--text-dark);
+        }
+        
+        .item-price {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--light-green);
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .total-row.final {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #eee;
+        }
+        
+        /* বাটন */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-submit {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+        
+        /* ভ্যালিডেশন */
+        .error-message {
+            color: #ff4757;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .form-group.error input,
+        .form-group.error textarea,
+        .form-group.error select {
+            border-color: #ff4757;
+        }
+        
+        .form-group.error .error-message {
+            display: block;
+        }
+        
+        /* কনফার্মেশন */
+        .confirmation {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .confirmation-icon {
+            font-size: 80px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+        
+        .confirmation h2 {
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+        
+        .confirmation p {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        
+        .order-details {
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .order-details p {
+            margin: 10px 0;
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- হেডার -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="logo">Alkhidmah Natural <span>Care Branch</span></h1>
+                <p class="tagline">প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য</p>
+            </div>
+            <div class="header-right">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- চেকআউট কন্টেন্ট -->
+    <main class="checkout-page">
+        <div class="container">
+            <!-- চেকআউট হেডার -->
+            <div class="checkout-header">
+                <h1><i class="fas fa-lock"></i> নিরাপদ চেকআউট</h1>
+                <p>আপনার অর্ডার সম্পন্ন করতে নিচের ধাপগুলো অনুসরণ করুন</p>
+            </div>
+            
+            <!-- চেকআউট ধাপ -->
+            <div class="checkout-steps">
+                <div class="step active" id="step1">
+                    <div class="step-icon">1</div>
+                    <div class="step-label">তথ্য দিন</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-icon">2</div>
+                    <div class="step-label">পেমেন্ট</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-icon">3</div>
+                    <div class="step-label">কনফার্ম</div>
+                </div>
+            </div>
+            
+            <!-- চেকআউট ফর্ম (ধাপ ১) -->
+            <div class="checkout-wrapper" id="checkoutForm">
+                <!-- বাম অংশ: ফর্ম -->
+                <div class="checkout-form">
+                    <!-- তথ্য বিভাগ -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> আপনার তথ্য</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName" class="required">পুরো নাম</label>
+                                <input type="text" id="fullName" placeholder="আপনার সম্পূর্ণ নাম লিখুন">
+                                <div class="error-message">নাম প্রদান করুন</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile" class="required">মোবাইল নম্বর</label>
+                                <input type="tel" id="mobile" placeholder="01XXXXXXXXX">
+                                <div class="error-message">সঠিক মোবাইল নম্বর দিন</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">ইমেইল (ঐচ্ছিক)</label>
+                                <input type="email" id="email" placeholder="আপনার ইমেইল ঠিকানা">
+                                <div class="error-message">সঠিক ইমেইল দিন</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ঠিকানা বিভাগ -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> ডেলিভারি ঠিকানা</h3>
+                        <div class="form-group">
+                            <label for="address" class="required">সম্পূর্ণ ঠিকানা</label>
+                            <textarea id="address" placeholder="বাড়ি নম্বর, রাস্তা, এলাকা, জেলা"></textarea>
+                            <div class="error-message">ঠিকানা প্রদান করুন</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="division" class="required">বিভাগ</label>
+                                <select id="division">
+                                    <option value="">বিভাগ নির্বাচন করুন</option>
+                                    <option value="dhaka">ঢাকা</option>
+                                    <option value="chittagong">চট্টগ্রাম</option>
+                                    <option value="khulna">খুলনা</option>
+                                    <option value="rajshahi">রাজশাহী</option>
+                                    <option value="barisal">বরিশাল</option>
+                                    <option value="sylhet">সিলেট</option>
+                                    <option value="rangpur">রংপুর</option>
+                                    <option value="mymensingh">ময়মনসিংহ</option>
+                                </select>
+                                <div class="error-message">বিভাগ নির্বাচন করুন</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="district" class="required">জেলা</label>
+                                <input type="text" id="district" placeholder="আপনার জেলা">
+                                <div class="error-message">জেলা প্রদান করুন</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode">পোস্টাল কোড</label>
+                                <input type="text" id="postalCode" placeholder="পোস্টাল কোড">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- পেমেন্ট মেথড -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-credit-card"></i> পেমেন্ট মেথড</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method selected" onclick="selectPayment('cod')">
+                                <div class="payment-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>ক্যাশ অন ডেলিভারি (COD)</h4>
+                                    <p>পণ্য হাতে পেয়ে টাকা প্রদান করুন</p>
+                                </div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment('bkash')">
+                                <div class="payment-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>bKash</h4>
+                                    <p>bKash মার্চেন্ট: 01949805239</p>
+                                </div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment('nogod')">
+                                <div class="payment-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>নগদ</h4>
+                                    <p>নগদ মার্চেন্ট: 01949805239</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- বিশেষ নির্দেশনা -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-sticky-note"></i> বিশেষ নির্দেশনা (ঐচ্ছিক)</h3>
+                        <div class="form-group">
+                            <textarea id="specialInstructions" placeholder="ডেলিভারি সম্পর্কিত বিশেষ নির্দেশনা থাকলে লিখুন..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- ফর্ম অ্যাকশন -->
+                    <div class="form-actions">
+                        <a href="cart.html" class="btn-back">
+                            <i class="fas fa-arrow-left"></i> কার্টে ফিরে যান
+                        </a>
+                        <button class="btn-submit" onclick="submitOrder()">
+                            অর্ডার কনফার্ম করুন <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- ডান অংশ: অর্ডার সামারি -->
+                <div class="order-summary">
+                    <h3><i class="fas fa-receipt"></i> অর্ডার সামারি</h3>
+                    
+                    <div class="order-items" id="orderItems">
+                        <!-- অর্ডার আইটেম লোড হবে -->
+                    </div>
+                    
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>সাবটোটাল</span>
+                            <span id="subtotal">৳ ০</span>
+                        </div>
+                        <div class="total-row">
+                            <span>ডেলিভারি চার্জ</span>
+                            <span id="deliveryCharge">৳ ৬০</span>
+                        </div>
+                        <div class="total-row">
+                            <span>ডিসকাউন্ট</span>
+                            <span id="discount">-৳ ০</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>মোট পরিশোধযোগ্য</span>
+                            <span id="totalAmount">৳ ৬০</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                        <p style="color: var(--text-light); font-size: 14px;">
+                            <i class="fas fa-info-circle"></i> অর্ডার কনফার্ম করলে আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- কনফার্মেশন মেসেজ (ধাপ ৩ - প্রাথমিকভাবে লুকানো) -->
+            <div class="confirmation" id="confirmationMessage" style="display: none;">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>অর্ডার সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <p>আপনার অর্ডার নম্বর: <strong id="orderNumber">ORD-20260130-001</strong></p>
+                
+                <div class="order-details">
+                    <p><strong>ক্রেতার নাম:</strong> <span id="confirmName">-</span></p>
+                    <p><strong>মোবাইল নম্বর:</strong> <span id="confirmMobile">-</span></p>
+                    <p><strong>ঠিকানা:</strong> <span id="confirmAddress">-</span></p>
+                    <p><strong>পেমেন্ট মেথড:</strong> <span id="confirmPayment">-</span></p>
+                    <p><strong>মোট পরিশোধযোগ্য:</strong> <span id="confirmTotal">-</span></p>
+                </div>
+                
+                <p style="color: var(--primary-green); font-weight: bold;">
+                    <i class="fas fa-clock"></i> ডেলিভারি সময়: ১-৩ কার্যদিবস
+                </p>
+                
+                <div style="margin-top: 30px;">
+                    <a href="index.html" class="btn-submit" style="text-decoration: none;">
+                        <i class="fas fa-home"></i> হোমপেজে ফিরে যান
+                    </a>
+                    <a href="products.html" class="btn-back" style="text-decoration: none; margin-left: 15px;">
+                        <i class="fas fa-shopping-bag"></i> আরও পণ্য কিনুন
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // চেকআউট ইনিশিয়ালাইজেশন
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            updateCartCount();
+            
+            // URL থেকে অর্ডার কনফার্মেশন চেক
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('confirmation') === 'true') {
+                showConfirmation();
+            }
+        });
+        
+        // পেমেন্ট মেথড সিলেক্ট
+        function selectPayment(method) {
+            // Remove selected class from all
+            document.querySelectorAll('.payment-method').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked item
+            event.currentTarget.classList.add('selected');
+        }
+        
+        // অর্ডার সামারি লোড
+        function loadOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                document.getElementById('orderItems').innerHTML = 
+                    '<p style="color: var(--text-light); text-align: center;">কার্টে কোন পণ্য নেই</p>';
+                return;
+            }
+            
+            // Load products data
+            fetch('data/products.json')
+                .then(response => response.json())
+                .then(products => {
+                    let itemsHTML = '';
+                    let subtotal = 0;
+                    
+                    cart.forEach(cartItem => {
+                        const product = products.find(p => p.id === cartItem.id);
+                        if (product) {
+                            const price = parseFloat(product.price.replace(/[৳,]/g, ''));
+                            const itemTotal = price * cartItem.quantity;
+                            subtotal += itemTotal;
+                            
+                            itemsHTML += `
+                                <div class="order-item">
+                                    <div class="item-name">
+                                        ${product.name} x${cartItem.quantity}
+                                    </div>
+                                    <div class="item-price">
+                                        ৳ ${itemTotal.toLocaleString('bn-BD')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    document.getElementById('orderItems').innerHTML = itemsHTML;
+                    
+                    // Calculate totals
+                    const delivery = 60;
+                    const discount = subtotal > 2000 ? subtotal * 0.1 : 0;
+                    const total = subtotal + delivery - discount;
+                    
+                    // Update display
+                    document.getElementById('subtotal').textContent = `৳ ${subtotal.toLocaleString('bn-BD')}`;
+                    document.getElementById('deliveryCharge').textContent = `৳ ${delivery.toLocaleString('bn-BD')}`;
+                    document.getElementById('discount').textContent = `-৳ ${discount.toLocaleString('bn-BD')}`;
+                    document.getElementById('totalAmount').textContent = `৳ ${total.toLocaleString('bn-BD')}`;
+                })
+                .catch(error => {
+                    console.error('Error loading order summary:', error);
+                });
+        }
+        
+        // অর্ডার সাবমিট
+        function submitOrder() {
+            // Form validation
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Collect form data
+            const orderData = {
+                name: document.getElementById('fullName').value,
+                mobile: document.getElementById('mobile').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                division: document.getElementById('division').value,
+                district: document.getElementById('district').value,
+                postalCode: document.getElementById('postalCode').value,
+                paymentMethod: document.querySelector('.payment-method.selected h4').textContent,
+                specialInstructions: document.getElementById('specialInstructions').value,
+                cart: JSON.parse(localStorage.getItem('cart')) || [],
+                orderDate: new Date().toISOString(),
+                orderNumber: 'ORD-' + Date.now()
+            };
+            
+            // Save order to localStorage (in real app, send to server)
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(orderData);
+            localStorage.setItem('orders', JSON.stringify(orderData));
+            
+            // Clear cart
+            localStorage.removeItem('cart');
+            updateCartCount();
+            
+            // Show confirmation
+            showConfirmation(orderData);
+        }
+        
+        // ফর্ম ভ্যালিডেশন
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+            
+            // Validate required fields
+            const requiredFields = [
+                { id: 'fullName', message: 'নাম প্রদান করুন' },
+                { id: 'mobile', message: 'সঠিক মোবাইল নম্বর দিন' },
+                { id: 'address', message: 'ঠিকানা প্রদান করুন' },
+                { id: 'division', message: 'বিভাগ নির্বাচন করুন' },
+                { id: 'district', message: 'জেলা প্রদান করুন' }
+            ];
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                const value = element.value.trim();
+                
+                if (!value) {
+                    element.parentElement.classList.add('error');
+                    element.parentElement.querySelector('.error-message').textContent = field.message;
+                    isValid = false;
+                } else if (field.id === 'mobile' && !/^01[3-9]\d{8}$/.test(value)) {
+                    element.parentElement.classList.add('error');
+                    element.parentElement.querySelector('.error-message').textContent = 'সঠিক মোবাইল নম্বর দিন';
+                    isValid = false;
+                }
+            });
+            
+            // Validate email if provided
+            const email = document.getElementById('email').value.trim();
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('email').parentElement.classList.add('error');
+                document.getElementById('email').parentElement.querySelector('.error-message').textContent = 'সঠিক ইমেইল দিন';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
+        // কনফার্মেশন শো
+        function showConfirmation(orderData) {
+            // Update step indicators
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+            
+            // Hide form, show confirmation
+            document.getElementById('checkoutForm').style.display = 'none';
+            document.getElementById('confirmationMessage').style.display = 'block';
+            
+            // Update confirmation details
+            if (orderData) {
+                document.getElementById('confirmName').textContent = orderData.name;
+                document.getElementById('confirmMobile').textContent = orderData.mobile;
+                document.getElementById('confirmAddress').textContent = orderData.address;
+                document.getElementById('confirmPayment').textContent = orderData.paymentMethod;
+                document.getElementById('confirmTotal').textContent = document.getElementById('totalAmount').textContent;
+                document.getElementById('orderNumber').textContent = orderData.orderNumber;
+            }
+        }
+        
+        // Generate random order number
+        function generateOrderNumber() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            
+            return `ORD-${year}${month}${day}-${random}`;
+        }
+    </script>
+</body>
+</html>
