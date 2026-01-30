@@ -3,241 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alkhidmah Natural Care Branch - প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য</title>
+    <meta name="description" content="প্রাকৃতিক হার্বাল পণ্য, চর্ম রোগ, যৌন রোগ, এলার্জি, হাঁপানির সমাধান">
+    <title>Alkhidmah Natural Care - প্রাকৃতিক স্বাস্থ্যসেবা</title>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/cart.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Header Styles */
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, #1a6d2c, #0d4d1f);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
             padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
         .header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            flex-wrap: wrap;
         }
         
         .logo-area {
-            display: flex;
-            flex-direction: column;
+            flex: 1;
+            min-width: 300px;
         }
         
         .logo {
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 0;
+            margin-bottom: 5px;
             color: white;
         }
         
+        .logo span {
+            color: #fffacd;
+        }
+        
         .tagline {
-            font-size: 14px;
+            font-size: 0.9rem;
             opacity: 0.9;
-            margin: 5px 0 0 0;
         }
         
         .header-right {
             display: flex;
+            align-items: center;
             gap: 15px;
-            align-items: center;
-        }
-        
-        .header-right a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .header-right a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .admin-btn {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: white;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
             flex-wrap: wrap;
         }
         
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        
-        .btn-primary {
-            background: #1a6d2c;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #0d4d1f;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26, 109, 44, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .btn-secondary:hover {
+        .search-box {
+            display: flex;
             background: white;
-            color: #1a6d2c;
+            border-radius: 30px;
+            overflow: hidden;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        /* Products Section */
-        .products-section {
-            padding: 60px 20px;
-            background: #f9f9f9;
+        .search-box input {
+            border: none;
+            padding: 8px 15px;
+            width: 200px;
+            outline: none;
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        
+        .search-box button {
+            background: #27ae60;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .admin-link {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .admin-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: #2c3e50;
+            padding: 10px 0;
+        }
+        
+        .navbar .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .navbar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .navbar a:hover, .navbar a.active {
+            background: #27ae60;
+        }
+        
+        /* ===== BANNER ===== */
+        .banner {
+            background: linear-gradient(rgba(39, 174, 96, 0.9), rgba(46, 204, 113, 0.9)),
+                        url('https://images.unsplash.com/photo-1542736667-069246bdbc6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .banner-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .banner-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* ===== CATEGORIES ===== */
+        .categories {
+            padding: 60px 0;
+            background: white;
         }
         
         .section-title {
             text-align: center;
+            font-size: 2rem;
             margin-bottom: 40px;
-            color: #1a6d2c;
+            color: #2c3e50;
+            position: relative;
         }
         
-        .section-title h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 3px;
+            background: #27ae60;
+            margin: 10px auto;
         }
         
-        .section-title p {
-            color: #666;
-            font-size: 18px;
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
         
-        .category-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .category-tab {
-            padding: 10px 25px;
-            background: white;
-            border: 2px solid #1a6d2c;
-            border-radius: 30px;
-            color: #1a6d2c;
-            font-weight: 600;
+        .category-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            border: 2px solid transparent;
         }
         
-        .category-tab.active {
-            background: #1a6d2c;
-            color: white;
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: #27ae60;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
-        .category-tab:hover {
-            background: #1a6d2c;
-            color: white;
-            transform: translateY(-2px);
+        .category-card i {
+            font-size: 3rem;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+        
+        .category-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        /* ===== PRODUCTS ===== */
+        .featured-products {
+            padding: 60px 0;
+            background: #f8f9fa;
         }
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
         }
         
         .product-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: all 0.3s;
         }
         
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
-        .product-image {
+        .product-img-container {
+            position: relative;
             height: 200px;
-            width: 100%;
-            object-fit: cover;
+            overflow: hidden;
         }
         
-        .product-content {
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-info {
             padding: 20px;
         }
         
         .product-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 1.2rem;
             margin-bottom: 10px;
-            color: #333;
-            min-height: 50px;
+            color: #2c3e50;
+            font-weight: 600;
         }
         
         .product-description {
             color: #666;
-            font-size: 14px;
+            font-size: 0.9rem;
             margin-bottom: 15px;
             line-height: 1.5;
-            min-height: 60px;
         }
         
         .product-price {
-            font-size: 24px;
+            color: #27ae60;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #1a6d2c;
             margin-bottom: 15px;
         }
         
@@ -246,81 +358,81 @@
             gap: 10px;
         }
         
-        .btn-add-to-cart {
+        .btn-cart {
+            flex: 2;
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        
+        .btn-view {
             flex: 1;
-            background: #1a6d2c;
+            background: #3498db;
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
+            gap: 5px;
         }
         
-        .btn-add-to-cart:hover {
-            background: #0d4d1f;
+        .text-center {
+            text-align: center;
         }
         
-        .btn-view-details {
-            background: #f5f5f5;
-            color: #333;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-view-details:hover {
-            background: #e0e0e0;
-        }
-        
-        /* Footer */
+        /* ===== FOOTER ===== */
         .footer {
-            background: linear-gradient(135deg, #1a6d2c, #0d4d1f);
-            color: white;
-            padding: 60px 20px 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 50px 0 20px;
         }
         
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 30px;
+            margin-bottom: 30px;
         }
         
-        .footer-column h3 {
-            font-size: 20px;
+        .footer-col h3 {
+            font-size: 1.3rem;
             margin-bottom: 20px;
             color: white;
+            position: relative;
+            padding-bottom: 10px;
         }
         
-        .footer-column p {
-            opacity: 0.9;
-            line-height: 1.6;
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: #27ae60;
+        }
+        
+        .footer-col p {
             margin-bottom: 15px;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
         
-        .contact-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .contact-list li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .footer-col i {
+            color: #27ae60;
+            width: 20px;
+            margin-right: 10px;
         }
         
         .social-links {
@@ -330,823 +442,446 @@
         }
         
         .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 40px;
             height: 40px;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: white;
             text-decoration: none;
             transition: all 0.3s;
         }
         
         .social-links a:hover {
-            background: white;
-            color: #1a6d2c;
+            background: #27ae60;
             transform: translateY(-3px);
         }
         
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: #27ae60;
+            padding-left: 5px;
+        }
+        
         .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            opacity: 0.8;
-        }
-        
-        /* Cart Modal */
-        .cart-modal {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 380px;
-            height: 100%;
-            background: white;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
-            z-index: 1001;
-            transition: right 0.3s ease;
-        }
-        
-        .cart-modal.active {
-            right: 0;
-        }
-        
-        .cart-header {
-            padding: 20px;
-            background: #1a6d2c;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .cart-header h3 {
-            margin: 0;
-        }
-        
-        .close-cart {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .cart-body {
-            padding: 20px;
-            height: calc(100% - 150px);
-            overflow-y: auto;
-        }
-        
-        .cart-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .cart-item-details {
-            flex: 1;
-        }
-        
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .cart-item-price {
-            color: #1a6d2c;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .quantity-input {
-            width: 50px;
+            padding-top: 20px;
             text-align: center;
-            border: 1px solid #ddd;
-            padding: 5px;
-            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #95a5a6;
         }
         
-        .remove-item {
+        .footer-bottom i.fa-heart {
             color: #e74c3c;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
         }
         
-        .cart-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: white;
-        }
-        
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1a6d2c;
-        }
-        
-        .cart-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .checkout-btn {
-            flex: 1;
-            background: #1a6d2c;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .checkout-btn:hover {
-            background: #0d4d1f;
-        }
-        
-        /* Responsive Design */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .header .container {
                 flex-direction: column;
-                gap: 15px;
                 text-align: center;
+                gap: 15px;
             }
             
-            .hero h1 {
-                font-size: 32px;
+            .logo-area {
+                min-width: auto;
             }
             
-            .hero p {
-                font-size: 16px;
+            .search-box input {
+                width: 150px;
             }
             
+            .banner-content h2 {
+                font-size: 2rem;
+            }
+            
+            .navbar .container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .navbar a {
+                white-space: nowrap;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
             .products-grid {
                 grid-template-columns: 1fr;
             }
             
-            .cart-modal {
-                width: 100%;
-                right: -100%;
-            }
-            
-            .category-tabs {
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding-bottom: 10px;
-            }
-        }
-        
-        /* Product Modal */
-        .product-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1002;
-            padding: 20px;
-        }
-        
-        .product-modal.active {
-            display: flex;
-        }
-        
-        .product-modal-content {
-            background: white;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #333;
-            z-index: 1;
-        }
-        
-        .modal-product-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 40px;
-        }
-        
-        .modal-product-images {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .modal-main-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-        
-        .modal-thumbnails {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-        
-        .modal-thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .modal-thumbnail.active {
-            border-color: #1a6d2c;
-        }
-        
-        .modal-product-info h2 {
-            font-size: 28px;
-            color: #1a6d2c;
-            margin-bottom: 20px;
-        }
-        
-        .modal-price {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a6d2c;
-            margin-bottom: 20px;
-        }
-        
-        .modal-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .modal-full-description {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .modal-quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .modal-quantity label {
-            font-weight: 600;
-        }
-        
-        .modal-quantity input {
-            width: 70px;
-            padding: 8px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            text-align: center;
-        }
-        
-        @media (max-width: 768px) {
-            .modal-product-details {
+            .categories-grid {
                 grid-template-columns: 1fr;
-                padding: 20px;
             }
             
-            .modal-actions {
-                flex-direction: column;
+            .banner {
+                padding: 50px 0;
             }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .loading-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #1a6d2c;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Cart Counter */
-        .cart-counter {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e74c3c;
-            color: white;
-            font-size: 12px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .cart-icon {
-            position: relative;
-        }
-        
-        /* Alert Messages */
-        .alert {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            background: #27ae60;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            gap: 15px;
-            z-index: 1003;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .alert.error {
-            background: #e74c3c;
-        }
-        
-        .alert.warning {
-            background: #f39c12;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        /* Sync Notification */
-        .sync-notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #3498db;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        }
-        
-        /* Product Status */
-        .product-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .status-in-stock {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-low-stock {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-out-of-stock {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        
-        /* WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25D366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            z-index: 999;
-            animation: float 3s ease-in-out infinite;
-            text-decoration: none;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .whatsapp-float:hover {
-            background: #128C7E;
-            transform: scale(1.1);
-        }
-        
-        /* Order Form Modal */
-        .order-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1004;
-            padding: 20px;
-        }
-        
-        .order-modal.active {
-            display: flex;
-        }
-        
-        .order-modal-content {
-            background: white;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-        }
-        
-        .order-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .form-group label {
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1a6d2c;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(26, 109, 44, 0.1);
-        }
-        
-        .order-summary {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .order-summary h3 {
-            margin-bottom: 15px;
-            color: #1a6d2c;
-        }
-        
-        .order-items {
-            margin-bottom: 15px;
-        }
-        
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .order-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a6d2c;
-            padding-top: 15px;
-            border-top: 2px solid #ddd;
-        }
-        
-        .submit-order {
-            background: #1a6d2c;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .submit-order:hover {
-            background: #0d4d1f;
-            transform: translateY(-2px);
-        }
-        
-        /* Payment Methods */
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .payment-method {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .payment-method.selected {
-            border-color: #1a6d2c;
-            background: #f9fffa;
-        }
-        
-        .payment-method input {
-            display: none;
-        }
-        
-        .payment-icon {
-            font-size: 24px;
-            color: #1a6d2c;
         }
     </style>
 </head>
 <body>
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/8801949805239" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <h1 class="logo">
-                    <i class="fas fa-leaf"></i> Alkhidmah Natural Care Branch
-                </h1>
+                <h1 class="logo">Alkhidmah Natural <span>Care Branch</span></h1>
                 <p class="tagline">প্রকৃতির উপাদানে বিশুদ্ধ স্বাস্থ্য</p>
             </div>
+            
             <div class="header-right">
-                <a href="#products">
-                    <i class="fas fa-box"></i> পণ্য
-                </a>
-                <a href="#about">
-                    <i class="fas fa-info-circle"></i> আমাদের সম্পর্কে
-                </a>
-                <a href="#contact">
-                    <i class="fas fa-phone-alt"></i> যোগাযোগ
-                </a>
-                <a href="admin.html" class="admin-btn">
-                    <i class="fas fa-user-shield"></i> Admin
-                </a>
-                <a href="#" class="cart-icon" onclick="toggleCart()">
+                <!-- Search Box -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="পণ্য খুঁজুন...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <!-- Cart -->
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-counter" id="cartCounter">0</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <!-- Admin Link -->
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-cog"></i> Admin
                 </a>
             </div>
         </div>
     </header>
-    
-    <!-- Hero Section -->
-    <section class="hero" id="home">
+
+    <!-- Navigation -->
+    <nav class="navbar">
         <div class="container">
-            <h1>স্বাস্থ্যই সম্পদ, প্রকৃতিই ঔষধ</h1>
-            <p>প্রাকৃতিক উপাদানে তৈরি বিশুদ্ধ হার্বাল পণ্য। চর্ম রোগ, যৌন রোগ, এলার্জি, হাঁপানি ও বিভিন্ন স্বাস্থ্য সমস্যার স্থায়ী সমাধান।</p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn btn-primary">
-                    <i class="fas fa-shopping-bag"></i> পণ্য দেখুন
-                </a>
-                <a href="https://wa.me/8801949805239" target="_blank" class="btn btn-secondary">
-                    <i class="fab fa-whatsapp"></i> WhatsApp এ অর্ডার
-                </a>
+            <a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a>
+            <a href="#products"><i class="fas fa-box"></i> সকল পণ্য</a>
+            <a href="#health"><i class="fas fa-heartbeat"></i> হেলথ কেয়ার</a>
+            <a href="#combo"><i class="fas fa-gift"></i> কম্বো অফার</a>
+            <a href="#skin"><i class="fas fa-allergies"></i> চর্ম ও এলার্জি</a>
+            <a href="#cosmetics"><i class="fas fa-spa"></i> কসমেটিক্স</a>
+            <a href="#sexual"><i class="fas fa-user-md"></i> যৌন রোগ</a>
+            <a href="#contact"><i class="fas fa-address-book"></i> যোগাযোগ</a>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <div class="banner-content">
+                <h2>প্রকৃতির সেরা উপহার</h2>
+                <p>১০০% হার্বাল ও প্রাকৃতিক উপাদানে তৈরি স্বাস্থ্য পণ্য</p>
+                <a href="#products" class="btn">পণ্য দেখুন</a>
             </div>
         </div>
     </section>
-    
-    <!-- Products Section -->
-    <section class="products-section" id="products">
+
+    <!-- Product Categories -->
+    <section class="categories">
         <div class="container">
-            <div class="section-title">
-                <h2>আমাদের পণ্য সমূহ</h2>
-                <p>প্রকৃতির নির্যাস থেকে তৈরি বিশুদ্ধ হার্বাল পণ্য</p>
-            </div>
-            
-            <!-- Category Tabs -->
-            <div class="category-tabs" id="categoryTabs">
-                <button class="category-tab active" data-category="all">সব পণ্য</button>
-                <button class="category-tab" data-category="হেলথ কেয়ার পণ্য">হেলথ কেয়ার</button>
-                <button class="category-tab" data-category="চর্ম, এলার্জি, হাঁপানি ইত্যাদি পণ্য তালিকা">চর্ম রোগ</button>
-                <button class="category-tab" data-category="শুধুমাত্র মেয়েদের যৌন রোগের পণ্য তালিকা">মহিলাদের রোগ</button>
-                <button class="category-tab" data-category="Sexually Products">পুরুষদের রোগ</button>
-                <button class="category-tab" data-category="কসমেটিক্স পণ্য তালিকা">কসমেটিক্স</button>
-                <button class="category-tab" data-category="কম্বো প্যাকেজ অফার">কম্বো অফার</button>
-            </div>
-            
-            <!-- Products Grid -->
-            <div class="products-grid" id="productsGrid">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>পণ্য লোড হচ্ছে...</p>
+            <h2 class="section-title">পণ্য বিভাগসমূহ</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterCategory('health-care')">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>হেলথ কেয়ার</h3>
+                    <p>সুস্বাস্থ্যের জন্য প্রয়োজনীয় সকল পণ্য</p>
                 </div>
-            </div>
-            
-            <!-- No Products Message -->
-            <div id="noProducts" style="display: none; text-align: center; padding: 40px;">
-                <i class="fas fa-box-open" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
-                <h3 style="color: #666; margin-bottom: 10px;">কোন পণ্য পাওয়া যায়নি</h3>
-                <p style="color: #999;">শীঘ্রই নতুন পণ্য যোগ করা হবে</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" style="padding: 60px 20px; background: white;">
-        <div class="container">
-            <div class="section-title">
-                <h2>আমাদের সম্পর্কে</h2>
-                <p>প্রকৃতির সঙ্গে আমাদের সম্পর্ক</p>
-            </div>
-            
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="background: #f9f9f9; padding: 30px; border-radius: 15px; margin-bottom: 30px;">
-                    <h3 style="color: #1a6d2c; margin-bottom: 15px;">আমাদের লক্ষ্য</h3>
-                    <p style="line-height: 1.6; color: #555;">
-                        আলখিদমাহ ন্যাচারাল কেয়ার ব্রাঞ্চের মূল লক্ষ্য হলো প্রাকৃতিক উপাদানের মাধ্যমে মানুষের স্বাস্থ্য সুরক্ষা করা। আমরা বিশ্বাস করি, প্রকৃতির মধ্যে রয়েছে সব রোগের নিরাময়ের ঔষধ। আমাদের সকল পণ্য প্রাকৃতিক হার্বাল উপাদান দিয়ে তৈরি, যেখানে কোন রাসায়নিক মিশ্রণ নেই।
-                    </p>
+                <div class="category-card" onclick="filterCategory('skin-care')">
+                    <i class="fas fa-allergies"></i>
+                    <h3>চর্ম ও এলার্জি</h3>
+                    <p>চর্ম রোগ, হাঁপানি, এলার্জি প্রতিকার</p>
                 </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div style="background: linear-gradient(135deg, #1a6d2c, #2e8b57); color: white; padding: 25px; border-radius: 10px;">
-                        <i class="fas fa-leaf" style="font-size: 36px; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">১০০% প্রাকৃতিক</h4>
-                        <p style="opacity: 0.9;">সমস্ত পণ্য প্রাকৃতিক হার্বাল উপাদানে তৈরি</p>
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 25px; border-radius: 10px;">
-                        <i class="fas fa-shield-alt" style="font-size: 36px; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">গুণগত মান</h4>
-                        <p style="opacity: 0.9;">সর্বোচ্চ গুণগত মান নিশ্চিত করা হয়</p>
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; padding: 25px; border-radius: 10px;">
-                        <i class="fas fa-truck" style="font-size: 36px; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">দ্রুত ডেলিভারি</h4>
-                        <p style="opacity: 0.9;">সমগ্র বাংলাদেশে দ্রুত ডেলিভারি সার্ভিস</p>
-                    </div>
+                <div class="category-card" onclick="filterCategory('sexual-health')">
+                    <i class="fas fa-user-md"></i>
+                    <h3>যৌন রোগ</h3>
+                    <p>পুরুষ ও মহিলাদের যৌন সমস্যার সমাধান</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('cosmetics')">
+                    <i class="fas fa-spa"></i>
+                    <h3>কসমেটিক্স</h3>
+                    <p>প্রাকৃতিক সৌন্দর্য চর্চার পণ্য</p>
                 </div>
             </div>
         </div>
     </section>
-    
+
+    <!-- Featured Products -->
+    <section class="featured-products" id="products">
+        <div class="container">
+            <h2 class="section-title">জনপ্রিয় পণ্য</h2>
+            <div class="products-grid" id="featuredProducts">
+                <!-- Products loaded by JavaScript -->
+            </div>
+            <div class="text-center">
+                <a href="products.html" class="btn">সকল পণ্য দেখুন</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
-    <section id="contact" class="footer">
+    <section class="categories" id="contact">
         <div class="container">
+            <h2 class="section-title">যোগাযোগ</h2>
             <div class="footer-grid">
-                <div class="footer-column">
+                <div class="footer-col">
                     <h3>Alkhidmah Natural Care Branch</h3>
-                    <p>প্রকৃতির উপাদানে বিশুদ্ধ হার্বাল পণ্যের নির্ভরযোগ্য ঠিকানা। স্বাস্থ্য সুরক্ষায় আমাদের অঙ্গীকার।</p>
+                    <p>প্রকৃতির উপাদানে তৈরি বিশুদ্ধ স্বাস্থ্য ও সৌন্দর্য পণ্য। বাংলাদেশের বিভিন্ন রোগের প্রাকৃতিক সমাধান।</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://wa.me/8801949805239" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 
-                <div class="footer-column">
+                <div class="footer-col">
                     <h3>যোগাযোগ</h3>
-                    <ul class="contact-list">
-                        <li>
-                            <i class="fas fa-phone-alt"></i>
-                            <span>ফোন: ০১৯৪৯-৮০৫২৩৯</span>
-                        </li>
-                        <li>
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp: ০১৯৪৯-৮০৫২৩৯</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>ইমেইল: alkhidmahnturalcarebranch@gmail.com</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>ঠিকানা: আপনার শাখার ঠিকানা, বাংলাদেশ</span>
-                        </li>
-                    </ul>
+                    <p><i class="fas fa-phone"></i> ফোন: <strong>01949805239</strong></p>
+                    <p><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ: <strong>01949805239</strong></p>
+                    <p><i class="fas fa-envelope"></i> ইমেইল: <strong>alkhidmahnturalcarebranch@gmail.com</strong></p>
+                    <p><i class="fas fa-map-marker-alt"></i> ঠিকানা: আপনার শাখার ঠিকানা, বাংলাদেশ</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alkhidmah Natural Care Branch. All Rights Reserved. | Developed with <i class="fas fa-heart"></i> for Natural Healthcare</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample products data
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "হেলথ কেয়ার সিরাপ",
+                category: "হেলথ কেয়ার পণ্য",
+                price: "৳ ১,২০০",
+                description: "সুস্বাস্থ্যের জন্য প্রয়োজনীয় হার্বাল সিরাপ।",
+                images: ["default.jpg"],
+                stock: 20,
+                isCombo: false
+            },
+            {
+                id: 2,
+                name: "চর্ম রোগের ক্রিম",
+                category: "চর্ম, এলার্জি, হাঁপানি",
+                price: "৳ ৭৫০",
+                description: "একজিমা, সোরিয়াসিস ও চর্ম রোগের জন্য কার্যকরী ক্রিম।",
+                images: ["default.jpg"],
+                stock: 15,
+                isCombo: false
+            },
+            {
+                id: 3,
+                name: "যৌন স্বাস্থ্য টনিক",
+                category: "যৌন রোগ",
+                price: "৳ ১,৫০০",
+                description: "পুরুষ ও মহিলাদের যৌন সমস্যার প্রাকৃতিক সমাধান।",
+                images: ["default.jpg"],
+                stock: 10,
+                isCombo: false
+            },
+            {
+                id: 4,
+                name: "প্রিমিয়াম হার্বাল কম্বো",
+                category: "কম্বো অফার",
+                price: "৳ ৩,৫০০",
+                description: "৩টি পণ্যের বিশেষ কম্বো প্যাক - ২০% ছাড়ে!",
+                images: ["default.jpg"],
+                stock: 8,
+                isCombo: true
+            },
+            {
+                id: 5,
+                name: "প্রাকৃতিক ফেসিয়াল ক্রিম",
+                category: "কসমেটিক্স",
+                price: "৳ ৫৫০",
+                description: "ত্বকের উজ্জ্বলতা ও সতেজতা বৃদ্ধিকারক ক্রিম।",
+                images: ["default.jpg"],
+                stock: 25,
+                isCombo: false
+            },
+            {
+                id: 6,
+                name: "হাঁপানি নিরাময় সিরাপ",
+                category: "চর্ম, এলার্জি, হাঁপানি",
+                price: "৳ ৯০০",
+                description: "হাঁপানি ও শ্বাসকষ্টের জন্য প্রাকৃতিক সিরাপ।",
+                images: ["default.jpg"],
+                stock: 12,
+                isCombo: false
+            }
+        ];
+
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Update cart count
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        // Add to cart
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`${product.name} কার্টে যোগ করা হয়েছে!`);
+        }
+        
+        // Load featured products
+        function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            
+            // Get products from localStorage or use sample
+            let products = JSON.parse(localStorage.getItem('website_products')) || sampleProducts;
+            
+            // Take first 6 products
+            const featured = products.slice(0, 6);
+            
+            // Generate HTML
+            container.innerHTML = featured.map(product => `
+                <div class="product-card">
+                    <div class="product-img-container">
+                        <img src="images/products/${product.images?.[0] || 'default.jpg'}" 
+                             alt="${product.name}" 
+                             class="product-img"
+                             onerror="this.src='https://via.placeholder.com/400x300/27ae60/ffffff?text=${encodeURIComponent(product.name)}'">
+                        ${product.isCombo ? '<span class="product-badge">কম্বো</span>' : ''}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <p class="product-price">${product.price}</p>
+                        <div class="product-actions">
+                            <button class="btn-cart" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                                <i class="fas fa-cart-plus"></i> কার্টে যোগ
+                            </button>
+                            <button class="btn-view" onclick="viewProduct(${product.id})">
+                                <i class="fas fa-eye"></i> বিস্তারিত
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // View product details
+        function viewProduct(id) {
+            window.location.href = `product-details.html?id=${id}`;
+        }
+        
+        // Filter by category
+        function filterCategory(category) {
+            localStorage.setItem('selectedCategory', category);
+            alert(`${category} বিভাগের পণ্য দেখানো হবে।`);
+            // In full version, redirect to products page
+            // window.location.href = `products.html?category=${category}`;
+        }
+        
+        // Search functionality
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                alert(`"${query}" অনুসন্ধান করা হবে।`);
+                // In full version: Implement search
+            }
+        });
+        
+        // Enter key for search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('searchBtn').click();
+            }
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+            updateCartCount();
+            
+            // Highlight active nav link based on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar a');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
                 
-                <div class="footer-column">
-                    <h3>দ্রুত লিংক</h3>
-                    <ul class="contact-list">
-                        <li><a href="#home" style="color: white; text-decoration: none;">হোম</a></li>
-                        <li><a href="#products" style="color: white; text-decoration: none;">পণ্য</a></li>
-                        <li><a href="#about" style="color: white; text-decoration: none;">আমাদের সম্পর্কে</a></li>
-                        <li><a href="admin.html" style="color: white; text-decoration: none;">Admin Panel</a></li>
-                    </ul>
-                </div>
-            </div
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Simple product update checker
+        function checkForProductUpdates() {
+            const lastUpdate = localStorage.getItem('last_product_update');
+            const now = new Date().getTime();
+            
+            // Check every 30 seconds
+            if (lastUpdate && (now - lastUpdate < 30000)) {
+                console.log('New products might be available');
+                // In full version: fetch and update products
+            }
+        }
+        
+        // Check for updates every 30 seconds
+        setInterval(checkForProductUpdates, 30000);
+    </script>
+</body>
+</html>
